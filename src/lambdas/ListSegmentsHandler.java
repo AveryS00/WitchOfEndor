@@ -1,16 +1,16 @@
 package lambdas;
 
-import http.ListSegmentResponse;
+import http.ListSegmentsResponse;
 
 import com.amazonaws.services.lambda.runtime.*;
 
 /*
  * Needs to be done for G2.1
  */
-public class ListSegmentsHandler implements RequestHandler<Object, ListSegmentResponse> {
+public class ListSegmentsHandler implements RequestHandler<Object, ListSegmentsResponse> {
 
 	@Override
-	public ListSegmentResponse handleRequest(Object arg0, Context arg1) {
+	public ListSegmentsResponse handleRequest(Object arg0, Context arg1) {
 		// TODO Auto-generated method stub
 		return null;
 	}
