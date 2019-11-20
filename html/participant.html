@@ -1,0 +1,61 @@
+<html>
+
+	<head>
+		
+		<title>Participant Landing Page</title>
+		<script type='text/javascript' src='../js/participant.js'></script>
+		
+	</head>
+
+	<body>
+		
+		<hr>
+		<div id="allSegments">
+		
+			<h3>Local Video Segments</h3>
+			
+			<ul id="segmentList">
+				<li>JS populates list</li>
+			</ul>
+			
+		</div>
+		
+		<hr>
+		<div id="allPlaylists">
+		
+			<h3>Playlists</h3>
+			
+			<ul id="playlistList">
+				<li>JS populates list</li>
+			</ul>
+			
+		</div>
+		
+		<hr>
+		<div id="createPlaylist">
+		
+			<h3>Create new Playlist</h3>
+			
+			<form id="createPlayListForm" onsubmit="handleCreateNewPlaylist()" method="post">
+				Playlist Name: <input type="text" name="name"> <br>
+				<input type="submit" value="Create Playlist">
+			</form>
+			
+		</div>
+		
+		<hr>
+		<div id="searchSegments">
+		
+			<h3>Search for Segment</h3>
+			
+			<form id="searchSegmentsForm" onsubmit="handleSearchForSegment()" method="post">
+				Character: <input type="text" name="character"> <br>
+				Phrase: <input type="text" name="phrase"> <br>
+				<input type="submit" value="Search">
+			</form>
+			
+		</div>
+	</body>
+	
+
+</html>
