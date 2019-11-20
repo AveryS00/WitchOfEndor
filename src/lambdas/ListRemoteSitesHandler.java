@@ -1,4 +1,4 @@
-package controller;
+package lambdas;
 
 public class ListRemoteSitesHandler {
 
