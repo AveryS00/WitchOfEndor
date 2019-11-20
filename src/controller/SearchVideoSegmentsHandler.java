@@ -1,5 +1,5 @@
 package controller;
 
-public class SearchVideoSegments {
+public class SearchVideoSegmentsHandler {
 
 }

@@ -1,5 +1,5 @@
 package controller;
 
-public class UnMarkVideoSegment {
+public class UnmarkSegmentHandler {
 
 }

@@ -1,4 +1,4 @@
 package controller;
 
-public class AppendVideoSegmentToPlaylist {
+public class AppendSegmentToPlaylistHandler {
 }

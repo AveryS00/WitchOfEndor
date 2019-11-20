@@ -1,5 +1,5 @@
 package controller;
 
-public class ListRemoteSites {
+public class ListRemoteSitesHandler {
 
 }

@@ -2,10 +2,10 @@ package controller;
 
 import entity.Library;
 
-public class DeletePlaylist {
+public class DeletePlaylistHandler {
 	Library lib;
 	
-	public DeletePlaylist(Library l)
+	public DeletePlaylistHandler(Library l)
 	{
 		lib = l;
 	}

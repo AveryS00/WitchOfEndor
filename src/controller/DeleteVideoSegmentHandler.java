@@ -1,5 +1,5 @@
 package controller;
 
-public class DeleteVideoSegment {
+public class DeleteVideoSegmentHandler {
 
 }
