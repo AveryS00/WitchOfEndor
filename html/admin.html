@@ -1,0 +1,41 @@
+<html>
+
+	<head>
+		
+		<title>Participant Landing Page</title>
+		<script type='text/javascript' src='../js/admin.js'></script>
+		
+	</head>
+
+	<body>
+		
+		<hr>
+		<div id="allSegments">
+		
+			<h3>Local Video Segments</h3>
+			
+			<ul id="segmentList">
+				<div id="video_id">
+					<p>Video here</p>
+					<button onclick="handleMarkRequest(video_id)">Mark/Unmark</button>
+				</div>
+			</ul>
+			
+		</div>
+		
+		<hr>
+		<div id="registerURL">
+		
+			<h3>Register New URL</h3>
+			
+			<form id="registerURLForm" onsubmit="handleRegisterURL()" method="post">
+				URL: <input type="text" name="name"> <br>
+				<input type="submit" value="Register URL">
+			</form>
+			
+		</div>
+		
+	</body>
+	
+
+</html>
