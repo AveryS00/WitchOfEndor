@@ -9,7 +9,7 @@ import java.util.List;
 
 import entity.VideoSegment;
 
-public class VideoSegmentDAO {
+public class TestVSDAO {
 	Connection conn;
 	PreparedStatement pstmt;
 	ResultSet rset;
@@ -18,8 +18,8 @@ public class VideoSegmentDAO {
 	 * Constructs a DAO object for VideoSegments
 	 * @throws SQLException if unable to connect to Database.
 	 */
-	public VideoSegmentDAO () throws SQLException {
-		conn = DatabaseConnection.connect();
+	public TestVSDAO (Connection conn) throws SQLException {
+		this.conn = conn;
 	}
 	
 	/**
