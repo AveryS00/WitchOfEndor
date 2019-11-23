@@ -12,22 +12,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import org.junit.After;
-import org.junit.Before;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import entity.VideoSegment;
 
 public class TestDatabase {
 	
-	Connection conn;
-	TestVSDAO dao;
+	static Connection conn;
+	static TestVSDAO vsDao;
 	
 	/**
 	 * Uses personal allocated Oracle server for those that have taken CS3431 Database Systems.
 	 */
-	@Before
-	public void setup () {
+	@BeforeClass
+	public static void oneTimeSetUp () {
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 		} catch (ClassNotFoundException e) {
@@ -42,7 +42,7 @@ public class TestDatabase {
 			System.out.println("Password: ");
 			String password = scanner.nextLine();
 			conn = DriverManager.getConnection("jdbc:oracle:thin:@csorcl.cs.wpi.edu:1521:orcl", username, password);
-			dao = new TestVSDAO(conn);
+			vsDao = new TestVSDAO(conn);
 			scanner.close();
 		} catch (SQLException e) {
 			System.out.println("Unable to connect to test database");
@@ -50,10 +50,10 @@ public class TestDatabase {
 		}
 	}
 	
-	@After
-	public void cleanup () {
+	@AfterClass
+	public static void oneTimeTearDown () {
 		try {
-			dao.close();
+			vsDao.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}	
@@ -67,16 +67,16 @@ public class TestDatabase {
 	@Test
 	public void testAddGetDelete () {
 		try {
-			dao.addVideoSegment(new VideoSegment("/right/here.aws", "Spock", "Live long and prosper", true));
-			assertEquals(dao.getVideoSegment("/right/here.aws"), 
+			vsDao.addVideoSegment(new VideoSegment("/right/here.aws", "Spock", "Live long and prosper", true));
+			assertEquals(vsDao.getVideoSegment("/right/here.aws"), 
 					new VideoSegment("/right/here.aws", "Spock", "Live long and prosper", true));
 			// Make sure you can't add the same video twice.
-			assertFalse(dao.addVideoSegment(new VideoSegment("/right/here.aws", "Spock", "Live long and prosper", true)));
+			assertFalse(vsDao.addVideoSegment(new VideoSegment("/right/here.aws", "Spock", "Live long and prosper", true)));
 			// Check for when you try to get something that isn't there.
-			assertEquals(null, dao.getVideoSegment("/right/there.aws"));
+			assertEquals(null, vsDao.getVideoSegment("/right/there.aws"));
 			// Delete the video from the database.
-			assertTrue(dao.deleteVideoSegment("/right/here.aws"));
-			assertEquals(null, dao.getVideoSegment("/right/here.aws"));
+			assertTrue(vsDao.deleteVideoSegment("/right/here.aws"));
+			assertEquals(null, vsDao.getVideoSegment("/right/here.aws"));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -86,18 +86,19 @@ public class TestDatabase {
 	public void testUpdate () {
 		try {
 			// Check the full update.
-			assertTrue(dao.addVideoSegment(new VideoSegment("/right/here.aws", "Spock", "Live long and prosper", true)));
-			assertTrue(dao.updateVideoSegment(new VideoSegment("/right/here.aws", "Spock", "Live long and prosper", false)));
-			assertEquals(dao.getVideoSegment("/right/here.aws"), 
+			assertTrue(vsDao.addVideoSegment(new VideoSegment("/right/here.aws", "Spock", "Live long and prosper", true)));
+			assertTrue(vsDao.updateVideoSegment(new VideoSegment("/right/here.aws", "Spock", "Live long and prosper", false)));
+			assertEquals(vsDao.getVideoSegment("/right/here.aws"), 
 					new VideoSegment("/right/here.aws", "Spock", "Live long and prosper", false));
-			assertTrue(dao.deleteVideoSegment("/right/here.aws"));
+			assertTrue(vsDao.deleteVideoSegment("/right/here.aws"));
 			
 			// Check the flip mark.
-			assertTrue(dao.addVideoSegment(new VideoSegment("/right/here.aws", "Spock", "Live long and prosper", true, false)));
-			assertTrue(dao.flipMark("/right/here.aws"));
-			assertEquals(dao.getVideoSegment("/right/here.aws"), 
+			VideoSegment vs = new VideoSegment("/right/here.aws", "Spock", "Live long and prosper", true, false);
+			assertTrue(vsDao.addVideoSegment(vs));
+			assertTrue(vsDao.flipMark(vs));
+			assertEquals(vsDao.getVideoSegment("/right/here.aws"), 
 					new VideoSegment("/right/here.aws", "Spock", "Live long and prosper", true, true));
-			assertTrue(dao.deleteVideoSegment("/right/here.aws"));
+			assertTrue(vsDao.deleteVideoSegment("/right/here.aws"));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -106,18 +107,19 @@ public class TestDatabase {
 	@Test
 	public void testList () {
 		// Populate database
-		assertTrue(dao.addVideoSegment(new VideoSegment("/right/here.aws", "Spock", "Live long and prosper", true)));
-		assertTrue(dao.addVideoSegment(new VideoSegment("/there.aws", "Kirk", "Hi There", true)));
-		assertTrue(dao.addVideoSegment(new VideoSegment("/somewhere.aws", "Red Shirt", "Help Me", false)));
+		assertTrue(vsDao.addVideoSegment(new VideoSegment("/right/here.aws", "Spock", "Live long and prosper", true)));
+		assertTrue(vsDao.addVideoSegment(new VideoSegment("/there.aws", "Kirk", "Hi There", true)));
+		assertTrue(vsDao.addVideoSegment(new VideoSegment("/somewhere.aws", "Red Shirt", "Help Me", false)));
 		
 		List<VideoSegment> list = new ArrayList<VideoSegment>();
 		list.add(new VideoSegment("/right/here.aws", "Spock", "Live long and prosper", true));
 		list.add(new VideoSegment("/there.aws", "Kirk", "Hi There", true));
-		list.add(new VideoSegment("/there.aws", "Kirk", "Hi There", true));
-		assertEquals(list, dao.listAllVideoSegments());
+		list.add(new VideoSegment("/somewhere.aws", "Red Shirt", "Help Me", false));
+		List<VideoSegment> DAOList = vsDao.listAllVideoSegments();
+		assertTrue(list.containsAll(DAOList));
 		
-		assertTrue(dao.deleteVideoSegment("/right/here.aws"));
-		assertTrue(dao.deleteVideoSegment("/there.aws"));
-		assertTrue(dao.deleteVideoSegment("/somewhere.aws"));
+		assertTrue(vsDao.deleteVideoSegment("/right/here.aws"));
+		assertTrue(vsDao.deleteVideoSegment("/there.aws"));
+		assertTrue(vsDao.deleteVideoSegment("/somewhere.aws"));
 	}
 }

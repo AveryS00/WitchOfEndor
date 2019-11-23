@@ -19,7 +19,7 @@ public class VideoSegmentDAO {
 	 * @throws SQLException if unable to connect to Database.
 	 */
 	public VideoSegmentDAO () throws SQLException {
-		conn = DatabaseConnection.connect();
+		this.conn = DatabaseConnection.connect();
 	}
 	
 	/**
@@ -30,7 +30,7 @@ public class VideoSegmentDAO {
 	 */
 	public VideoSegment getVideoSegment (String location) throws SQLException {
 		try {
-			pstmt = conn.prepareStatement("select * from Video where videoLocation = ?;");
+			pstmt = conn.prepareStatement("select * from Video where videoLocation = ?");
 			pstmt.setString(1, location);
 			rset = pstmt.executeQuery();
 			if (rset.next()) {
@@ -57,9 +57,9 @@ public class VideoSegmentDAO {
 			if (isInDatabase(vs)) {
 				return false;
 			}
-			pstmt = conn.prepareStatement("insert into Video values (?, ?, ?, ?, ?);");
-			pstmt.setString(1, vs.name);
-			pstmt.setString(2, vs.location);
+			pstmt = conn.prepareStatement("insert into Video values (?, ?, ?, ?, ?)");
+			pstmt.setString(1, vs.location);
+			pstmt.setString(2, vs.name);
 			pstmt.setString(3, vs.character);
 			if (vs.getIsLocal()) {
 				pstmt.setString(4, "T");
@@ -92,7 +92,7 @@ public class VideoSegmentDAO {
 				return false;
 			}
 			pstmt = conn.prepareStatement("update Video set videoName = ?, characterName = ?, isLocal = ?, isMarked = ? "
-					+ "where videoLocation = ?;");
+					+ "where videoLocation = ?");
 			pstmt.setString(1, vs.name);
 			pstmt.setString(2, vs.character);
 			if (vs.getIsLocal()) {
@@ -118,23 +118,23 @@ public class VideoSegmentDAO {
 	
 	/**
 	 * Flips the mark status in the database.
-	 * @param location The location of the VideoSegment to flip the status.
+	 * @param vs The VideoSegment to flip the status of.
 	 * @return True if one row was updated. False otherwise.
 	 */
-	public boolean flipMark (String location) {
+	public boolean flipMark (VideoSegment vs) {
 		try {
-			if (!isInDatabase(new VideoSegment(location, "", "", false, false))) {
+			if (!isInDatabase(new VideoSegment(vs.location, "", "", false, false))) {
 				return false;
 			}
-			pstmt = conn.prepareStatement("update from Video set isMarked = ? where videoLocation = ?");
-			if (getVideoSegment(location).getIsMarked()) {
+			pstmt = conn.prepareStatement("update Video set isMarked = ? where videoLocation = ?");
+			if (vs.getIsMarked()) {
 				// If it is marked, unmark it.
 				pstmt.setString(1, "F");
 			} else {
 				// Else mark it.
 				pstmt.setString(1, "T");
 			}
-			pstmt.setString(2, location);
+			pstmt.setString(2, vs.location);
 			int count = pstmt.executeUpdate();
 			return (count == 1);
 		} catch (SQLException e) {
@@ -155,7 +155,7 @@ public class VideoSegmentDAO {
 			if (!isInDatabase(new VideoSegment(location, "", "", false, false))) {
 				return false;
 			}
-			pstmt = conn.prepareStatement("delete from Video where videoLocation = ?;");
+			pstmt = conn.prepareStatement("delete from Video where videoLocation = ?");
 			pstmt.setString(1, location);
 			int numRows = pstmt.executeUpdate();
 			return (numRows == 1);
@@ -174,7 +174,7 @@ public class VideoSegmentDAO {
 	public List<VideoSegment> listAllVideoSegments () {
 		List<VideoSegment> list = new ArrayList<VideoSegment>();
 		try {
-			pstmt = conn.prepareStatement("select * from Video;");
+			pstmt = conn.prepareStatement("select * from Video");
 			rset = pstmt.executeQuery();
 			while (rset.next()) {
 				list.add(generateVideoSegment());
@@ -243,16 +243,29 @@ public class VideoSegmentDAO {
 	 */
 	private boolean isInDatabase (VideoSegment vs) throws SQLException {
 		try {
-			pstmt = conn.prepareStatement("select * from Video where videoLocation = ?;");
-			pstmt.setString(1, vs.location);
-			rset = pstmt.executeQuery();
-			boolean isInDB = rset.next();
-			return isInDB;
+			PreparedStatement pstmt = conn.prepareStatement("select * from Video where videoLocation = ?");
+			boolean isInDB;
+			try {
+				pstmt.setString(1, vs.location);
+				ResultSet rset = pstmt.executeQuery();
+				
+				try {
+					isInDB = rset.next();
+				} finally {
+					if (rset != null) {
+						rset.close();
+					}
+				}
+				
+				return isInDB;
+			} finally {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw e;
-		} finally {
-			closeStmtRset();
 		}
 	}
 }

@@ -3,15 +3,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="test"/>
-	<classpathentry kind="lib" path="C:/Users/markj/.m2/repository/com/amazonaws/aws-lambda-java-core/1.1.0/aws-lambda-java-core-1.1.0.jar">
-	<attributes>
-		<attribute name="maven.pomderived" value="true"/>
-		<attribute name="maven.groupId" value="com.amazonaws"/>
-		<attribute name="maven.artifactId" value="aws-lambda-java-core"/>
-		<attribute name="maven.version" value="1.1.0"/>
-		<attribute name="maven.scope" value="compile"/>
-	</attributes>
-	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="lib" path="test/database/ojdbc6.jar"/>
 	<classpathentry kind="output" path="bin"/>
