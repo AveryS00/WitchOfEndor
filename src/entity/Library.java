@@ -29,7 +29,15 @@ public class Library {
 	 * @throws LibraryException if segment is already in library
 	 */
 	boolean addSegment(VideoSegment segment) throws LibraryException {
-		return false;
+		for(int i = 0; i < segments.size(); i++)
+		{
+			if(segments.get(i).equals(segment))
+			{
+				throw new LibraryException("Segment already in library.");
+			}
+		}
+		segments.add(segment);
+		return true;
 	}
 	
 	/**
@@ -39,28 +47,15 @@ public class Library {
 	 * @throws LibraryException if segment is not in library
 	 */
 	boolean removeSegment(VideoSegment segment) throws LibraryException {
-		return false;
-	}
-	
-	/**
-	 * Adds playlist to library
-	 * Playlist must have unique name
-	 * @param p Playlist to add
-	 * @return true if playlist was able to be added to library
-	 * @throws LibraryException if playlist is already in library
-	 */
-	boolean addPlaylist(Playlist p) throws LibraryException {
-		return false;
-	}
-	
-	/**
-	 * Removes playlist from library
-	 * @param p playlist to remove
-	 * @return true if playlist was already in library and was able to be removed
-	 * @throws LibraryException if playlist is not in library
-	 */
-	boolean removePlaylist(Playlist p) throws LibraryException {
-		return false;
+		for(int i = 0; i < segments.size(); i++)
+		{
+			if(segments.get(i).equals(segment))
+			{
+				segments.remove(i);
+				return true;
+			}
+		}
+		throw new LibraryException("Segment not in library.");
 	}
 	
 	// PARTICIPANT METHODS
@@ -72,7 +67,15 @@ public class Library {
 	 * @throws LibraryException if playlist with same name is already in library
 	 */
 	public boolean createPlaylist(String name) throws LibraryException {
-		return false;
+		for(int i = 0; i < playlists.size(); i++)
+		{
+			if(playlists.get(i).equals(new Playlist(name)))
+			{
+				throw new LibraryException("Segment already in library.");
+			}
+		}
+		playlists.add(new Playlist(name));
+		return true;
 	}
 	
 	/**
@@ -82,7 +85,15 @@ public class Library {
 	 * @throws LibraryException if playlist is not in library
 	 */
 	public boolean deletePlaylist(String name) throws LibraryException {
-		return false;
+		for(int i = 0; i < playlists.size(); i++)
+		{
+			if(playlists.get(i).equals(new Playlist(name)))
+			{
+				playlists.remove(i);
+				return true;
+			}
+		}
+		throw new LibraryException("Segment not in library.");
 	}
 	
 	/**
@@ -92,7 +103,14 @@ public class Library {
 	 * @throws LibraryException if playlist with name doesnt exist
 	 */
 	public Playlist getPlaylist(String name) throws LibraryException {
-		return null;
+		for(int i = 0; i < playlists.size(); i++)
+		{
+			if(playlists.get(i).equals(new Playlist(name)))
+			{
+				return playlists.get(i);
+			}
+		}
+		throw new LibraryException("Named playlist doesn not exist");
 	}
 	
 	public List<Playlist> getPlaylists() {
