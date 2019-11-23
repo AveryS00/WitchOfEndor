@@ -9,7 +9,7 @@ import java.util.List;
 
 import entity.VideoSegment;
 
-public class VideoSegmentDAO {
+public class TestVSDAO {
 	Connection conn;
 	PreparedStatement pstmt;
 	ResultSet rset;
@@ -18,8 +18,8 @@ public class VideoSegmentDAO {
 	 * Constructs a DAO object for VideoSegments
 	 * @throws SQLException if unable to connect to Database.
 	 */
-	public VideoSegmentDAO () throws SQLException {
-		this.conn = DatabaseConnection.connect();
+	public TestVSDAO (Connection conn) throws SQLException {
+		this.conn = conn;
 	}
 	
 	/**
@@ -30,7 +30,7 @@ public class VideoSegmentDAO {
 	 */
 	public VideoSegment getVideoSegment (String location) throws SQLException {
 		try {
-			pstmt = conn.prepareStatement("SELECT * FROM Video WHERE videoLocation = ?");
+			pstmt = conn.prepareStatement("select * from Video where videoLocation = ?");
 			pstmt.setString(1, location);
 			rset = pstmt.executeQuery();
 			if (rset.next()) {
@@ -57,12 +57,20 @@ public class VideoSegmentDAO {
 			if (isInDatabase(vs)) {
 				return false;
 			}
-			pstmt = conn.prepareStatement("INSERT INTO Video (videoLocation, videoName, characterName, isLocal, isMarked) VALUES (?, ?, ?, ?, ?)");
+			pstmt = conn.prepareStatement("insert into Video values (?, ?, ?, ?, ?)");
 			pstmt.setString(1, vs.location);
 			pstmt.setString(2, vs.name);
 			pstmt.setString(3, vs.character);
-			pstmt.setBoolean(4, vs.getIsLocal());
-			pstmt.setBoolean(5, vs.getIsMarked());
+			if (vs.getIsLocal()) {
+				pstmt.setString(4, "T");
+			} else {
+				pstmt.setString(4, "F");
+			}
+			if (vs.getIsMarked()) {
+				pstmt.setString(5, "T");
+			} else {
+				pstmt.setString(5, "F");
+			}
 			pstmt.executeUpdate();
 			return true;
 		} catch (SQLException e) {
@@ -83,12 +91,20 @@ public class VideoSegmentDAO {
 			if (!isInDatabase(vs)) {
 				return false;
 			}
-			pstmt = conn.prepareStatement("UPDATE Video SET videoName = ?, characterName = ?, isLocal = ?, isMarked = ? "
-					+ "WHERE videoLocation = ?");
+			pstmt = conn.prepareStatement("update Video set videoName = ?, characterName = ?, isLocal = ?, isMarked = ? "
+					+ "where videoLocation = ?");
 			pstmt.setString(1, vs.name);
 			pstmt.setString(2, vs.character);
-			pstmt.setBoolean(3, vs.getIsLocal());
-			pstmt.setBoolean(4, vs.getIsMarked());
+			if (vs.getIsLocal()) {
+				pstmt.setString(3, "T");
+			} else {
+				pstmt.setString(3, "F");
+			}
+			if (vs.getIsMarked()) {
+				pstmt.setString(4, "T");
+			} else {
+				pstmt.setString(4, "F");
+			}
 			pstmt.setString(5, vs.location);
 			int updatedRows = pstmt.executeUpdate();
 			return (updatedRows == 1);
@@ -110,8 +126,14 @@ public class VideoSegmentDAO {
 			if (!isInDatabase(new VideoSegment(vs.location, "", "", false, false))) {
 				return false;
 			}
-			pstmt = conn.prepareStatement("UPDATE Video SET isMarked = ? WHERE videoLocation = ?");
-			pstmt.setBoolean(1, !vs.getIsMarked());
+			pstmt = conn.prepareStatement("update Video set isMarked = ? where videoLocation = ?");
+			if (vs.getIsMarked()) {
+				// If it is marked, unmark it.
+				pstmt.setString(1, "F");
+			} else {
+				// Else mark it.
+				pstmt.setString(1, "T");
+			}
 			pstmt.setString(2, vs.location);
 			int count = pstmt.executeUpdate();
 			return (count == 1);
@@ -133,7 +155,7 @@ public class VideoSegmentDAO {
 			if (!isInDatabase(new VideoSegment(location, "", "", false, false))) {
 				return false;
 			}
-			pstmt = conn.prepareStatement("DELETE FROM Video WHERE videoLocation = ?");
+			pstmt = conn.prepareStatement("delete from Video where videoLocation = ?");
 			pstmt.setString(1, location);
 			int numRows = pstmt.executeUpdate();
 			return (numRows == 1);
@@ -152,7 +174,7 @@ public class VideoSegmentDAO {
 	public List<VideoSegment> listAllVideoSegments () {
 		List<VideoSegment> list = new ArrayList<VideoSegment>();
 		try {
-			pstmt = conn.prepareStatement("SELECT * FROM Video");
+			pstmt = conn.prepareStatement("select * from Video");
 			rset = pstmt.executeQuery();
 			while (rset.next()) {
 				list.add(generateVideoSegment());
@@ -197,8 +219,20 @@ public class VideoSegmentDAO {
 	 * @throws SQLException
 	 */
 	private VideoSegment generateVideoSegment () throws SQLException {
+		boolean isLocal;
+		boolean isMarked;
+		if (rset.getString("isLocal").equals("T")) {
+			isLocal = true;
+		} else {
+			isLocal = false;
+		}
+		if (rset.getString("isMarked").equals("T")) {
+			isMarked = true;
+		} else {
+			isMarked = false;
+		}
 		return new VideoSegment (rset.getString("videoLocation"), rset.getString("characterName"), rset.getString("videoName"),
-				rset.getBoolean("isLocal"), rset.getBoolean("isMarked"));
+				isLocal, isMarked);
 	}
 	
 	/**
@@ -209,7 +243,7 @@ public class VideoSegmentDAO {
 	 */
 	private boolean isInDatabase (VideoSegment vs) throws SQLException {
 		try {
-			PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM Video WHERE videoLocation = ?");
+			PreparedStatement pstmt = conn.prepareStatement("select * from Video where videoLocation = ?");
 			boolean isInDB;
 			try {
 				pstmt.setString(1, vs.location);

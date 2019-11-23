@@ -6,7 +6,6 @@ import java.util.List;
 import exceptions.LibraryException;
 
 public class Library {
-	
 	List<Playlist> playlists;
 	List<VideoSegment> segments;
 	List<String> remoteURLs;

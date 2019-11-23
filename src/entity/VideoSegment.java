@@ -77,4 +77,12 @@ public class VideoSegment {
 		}
 		return false;
 	}
+	
+	/**
+	 * Converts the object into a readable String format.
+	 */
+	@Override
+	public String toString () {
+		return location + " " + character + " " + name;
+	}
 }
