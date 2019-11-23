@@ -78,7 +78,7 @@ public class Playlist {
 		}
 		if (o instanceof Playlist) {
 			Playlist p = (Playlist) o;
-			return p.name == this.name && p.videos.equals(this.videos);
+			return p.name == this.name;
 		}
 		return false;
 	}
