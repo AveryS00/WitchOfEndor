@@ -3,11 +3,10 @@ package entity;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
-import java.util.List;
 
 public class Playlist {
 	ArrayList<VideoSegment> videos;
-	String name;
+	final String name;
 	
 	/**
 	 * Constructor for a Playlist.
@@ -49,16 +48,6 @@ public class Playlist {
 	}
 	
 	/**
-	 * Renames the Playlist.
-	 * @param name The name to change to.
-	 * @return True always.
-	 */
-	public boolean rename (String name) {
-		this.name = name;
-		return true;
-	}
-	
-	/**
 	 * Returns an iterator to get all of the VideoSegments in the Playlist in order.
 	 * @return An iterator of VideoSegments in the Playlist.
 	 */
@@ -78,7 +67,7 @@ public class Playlist {
 		}
 		if (o instanceof Playlist) {
 			Playlist p = (Playlist) o;
-			return p.name == this.name && p.videos.equals(this.videos);
+			return p.name == this.name;
 		}
 		return false;
 	}

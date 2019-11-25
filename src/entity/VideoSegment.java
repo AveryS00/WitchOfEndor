@@ -62,7 +62,7 @@ public class VideoSegment {
 	}
 	
 	/**
-	 * Checks if this object is equal to another object.
+	 * Checks if this object is equal to another VideoSegment by comparing Location.
 	 * @param o The object to check with.
 	 * @return True if the objects are equal. False otherwise.
 	 */
@@ -73,7 +73,7 @@ public class VideoSegment {
 		}
 		if (o instanceof VideoSegment) {
 			VideoSegment vs = (VideoSegment) o;
-			return this.location.equals(vs.location) && this.name.equals(vs.name) && this.character.equals(vs.character);
+			return this.location.equals(vs.location);
 		}
 		return false;
 	}
