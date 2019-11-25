@@ -3,6 +3,7 @@ package entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import database.VideoSegmentDAO;
 import exceptions.LibraryException;
 
 public class Library {
@@ -18,7 +19,13 @@ public class Library {
 	}
 
 	void populateLibraryFromDB() {
-
+		VideoSegmentDAO segmentDB;
+		try {
+			segmentDB = new VideoSegmentDAO();
+			segments = segmentDB.listAllVideoSegments();
+		} catch (Exception ex) {
+			
+		}
 	}
 
 	/**
@@ -135,16 +142,16 @@ public class Library {
 	 * @return true if segment was removed
 	 * @throws LibraryException if segment is not in playlist
 	 */
-	//	public boolean removeSegmentFromPlaylist(Playlist p, VideoSegment v) throws LibraryException {
-	// how does this handle trying to remove a segment that is in the playlist twice
-	//		return p.removeSegment(v);
-	//	}
+	public boolean removeSegmentFromPlaylist(Playlist p, VideoSegment v) throws LibraryException {
+		// how does this handle trying to remove a segment that is in the playlist twice
+		return p.removeSegment(v);
+	}
 
 	/**
 	 * 
 	 * @return all local video segments
 	 */
-	public List<VideoSegment> getLocalSegments() {
+	public List<VideoSegment> getLocalSegments() throws LibraryException {
 		List<VideoSegment> vs = new ArrayList<VideoSegment>();
 
 		for(int i = 0; i < segments.size(); i++)
@@ -154,6 +161,9 @@ public class Library {
 				vs.add(segments.get(i));
 			}
 		}
+		if(vs.size() == 0) {
+			throw new LibraryException("No local segments found in library");
+		}
 		return vs;
 	}
 
@@ -161,7 +171,7 @@ public class Library {
 	 * 
 	 * @return all remote video segments
 	 */
-	public List<VideoSegment> getRemoteSegment() {
+	public List<VideoSegment> getRemoteSegment() throws LibraryException {
 		List<VideoSegment> vs = new ArrayList<VideoSegment>();
 
 		for(int i = 0; i < segments.size(); i++)
@@ -171,7 +181,18 @@ public class Library {
 				vs.add(segments.get(i));
 			}
 		}
+		if(vs.size() == 0) {
+			throw new LibraryException("No remote segments found in library");
+		}
 		return vs;
+	}
+	
+	
+	public List<VideoSegment> getAllSegments() throws LibraryException {
+		if(this.segments.size() == 0) {
+			throw new LibraryException("No Semgments in Library");
+		}
+		return this.segments;
 	}
 
 	/**
