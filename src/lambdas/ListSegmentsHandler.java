@@ -2,17 +2,31 @@ package lambdas;
 
 import http.ListSegmentsResponse;
 
-//import com.amazonaws.services.lambda.runtime.*;
+import java.util.List;
+
+import com.amazonaws.services.lambda.runtime.*;
+
+import entity.Library;
+import entity.VideoSegment;
+import exceptions.LibraryException;
 
 /*
  * Needs to be done for G2.1
  */
-//public class ListSegmentsHandler implements RequestHandler<Object, ListSegmentsResponse> {
+public class ListSegmentsHandler implements RequestHandler<Object, ListSegmentsResponse> {
 
-	/*@Override
+	@Override
 	public ListSegmentsResponse handleRequest(Object arg0, Context arg1) {
-		// TODO Auto-generated method stub
-		return null;
-	}*/
+		Library library = new Library();
+		List<VideoSegment> segments;
+		ListSegmentsResponse response;
+		try {
+			segments = library.getAllSegments();
+			response = new ListSegmentsResponse(segments, 200, "");
+		} catch (LibraryException ex) {
+			response = new ListSegmentsResponse(null, 400, "No Segments Found in Library");
+		}
+		return response;
+	}
 
-//}
+}

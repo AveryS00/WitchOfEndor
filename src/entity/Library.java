@@ -3,24 +3,31 @@ package entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import database.VideoSegmentDAO;
 import exceptions.LibraryException;
 
 public class Library {
 	List<Playlist> playlists;
 	List<VideoSegment> segments;
 	List<String> remoteURLs;
-	
+
 	public Library() {
 		playlists = new ArrayList<Playlist>();
 		segments = new ArrayList<VideoSegment>();
 		remoteURLs = new ArrayList<String>();
 		populateLibraryFromDB();
 	}
-	
+
 	void populateLibraryFromDB() {
-		
+		VideoSegmentDAO segmentDB;
+		try {
+			segmentDB = new VideoSegmentDAO();
+			segments = segmentDB.listAllVideoSegments();
+		} catch (Exception ex) {
+			
+		}
 	}
-	
+
 	/**
 	 * Adds video segment to library
 	 * @param segment Video segment to add
@@ -38,7 +45,7 @@ public class Library {
 		segments.add(segment);
 		return true;
 	}
-	
+
 	/**
 	 * Removes video segment from library
 	 * @param segment Video segment to remove
@@ -56,9 +63,9 @@ public class Library {
 		}
 		throw new LibraryException("Segment not in library.");
 	}
-	
+
 	// PARTICIPANT METHODS
-	
+
 	/**
 	 * Creates playlist in library and saves to DB
 	 * @param name unique playlist name 
@@ -68,7 +75,7 @@ public class Library {
 	public boolean createPlaylist(String name) throws LibraryException {
 		for(int i = 0; i < playlists.size(); i++)
 		{
-			if(playlists.get(i).equals(new Playlist(name)))
+			if(playlists.get(i).name.equals(name))
 			{
 				throw new LibraryException("Segment already in library.");
 			}
@@ -76,7 +83,7 @@ public class Library {
 		playlists.add(new Playlist(name));
 		return true;
 	}
-	
+
 	/**
 	 * Deletes playlist in library and updates DB
 	 * @param name name of playlist to delete
@@ -86,7 +93,7 @@ public class Library {
 	public boolean deletePlaylist(String name) throws LibraryException {
 		for(int i = 0; i < playlists.size(); i++)
 		{
-			if(playlists.get(i).equals(new Playlist(name)))
+			if(playlists.get(i).name.equals(name))
 			{
 				playlists.remove(i);
 				return true;
@@ -94,7 +101,7 @@ public class Library {
 		}
 		throw new LibraryException("Segment not in library.");
 	}
-	
+
 	/**
 	 * Gets playlist from library with given name
 	 * @param name playlist to get
@@ -104,32 +111,30 @@ public class Library {
 	public Playlist getPlaylist(String name) throws LibraryException {
 		for(int i = 0; i < playlists.size(); i++)
 		{
-			if(playlists.get(i).equals(new Playlist(name)))
+			if(playlists.get(i).name.equals(name))
 			{
 				return playlists.get(i);
 			}
 		}
 		throw new LibraryException("Named playlist doesn not exist");
 	}
-	
+
 	public List<Playlist> getPlaylists() {
 		return this.playlists;
 	}
-	
-	
-	
+
+
+
 	/**
 	 * Appends video segment to end of playlist and updates DB
 	 * @param p playlist 
 	 * @param v video segment
 	 * @return true if video segment was appended to playlist
-	 * @throws LibraryException 
 	 */
-	public boolean appendSegmentToPlaylist(Playlist p, VideoSegment v) throws LibraryException {
-		// how does this handle trying to add the same segment twice
-		return false;
+	public boolean appendSegmentToPlaylist(Playlist p, VideoSegment v) {
+		return p.appendVideo(v);
 	}
-	
+
 	/**
 	 * Removes video segment from playlist and updates DB
 	 * @param p playlist
@@ -139,25 +144,57 @@ public class Library {
 	 */
 	public boolean removeSegmentFromPlaylist(Playlist p, VideoSegment v) throws LibraryException {
 		// how does this handle trying to remove a segment that is in the playlist twice
-		return false;
+		return p.removeSegment(v);
 	}
-	
+
 	/**
 	 * 
 	 * @return all local video segments
 	 */
-	public List<VideoSegment> getLocalSegments() {
-		return null;
+	public List<VideoSegment> getLocalSegments() throws LibraryException {
+		List<VideoSegment> vs = new ArrayList<VideoSegment>();
+
+		for(int i = 0; i < segments.size(); i++)
+		{
+			if(segments.get(i).isLocal)
+			{
+				vs.add(segments.get(i));
+			}
+		}
+		if(vs.size() == 0) {
+			throw new LibraryException("No local segments found in library");
+		}
+		return vs;
 	}
-	
+
 	/**
 	 * 
 	 * @return all remote video segments
 	 */
-	public List<VideoSegment> getRemoteSegment() {
-		return null;
+	public List<VideoSegment> getRemoteSegment() throws LibraryException {
+		List<VideoSegment> vs = new ArrayList<VideoSegment>();
+
+		for(int i = 0; i < segments.size(); i++)
+		{
+			if(!(segments.get(i).isLocal))
+			{
+				vs.add(segments.get(i));
+			}
+		}
+		if(vs.size() == 0) {
+			throw new LibraryException("No remote segments found in library");
+		}
+		return vs;
 	}
 	
+	
+	public List<VideoSegment> getAllSegments() throws LibraryException {
+		if(this.segments.size() == 0) {
+			throw new LibraryException("No Semgments in Library");
+		}
+		return this.segments;
+	}
+
 	/**
 	 * Searches local library for segments that contain phrase and was spoken by character 
 	 * @param character character to search for
@@ -177,10 +214,25 @@ public class Library {
 	 * @throws LibraryException if segment is already in library
 	 */
 	public boolean addSegmentToLibrary(VideoSegment segment) throws LibraryException{
-		return false;
+		if(segments.contains(segment))
+		{
+			throw new LibraryException("Library already contains this segment");
+		}
+		segments.add(segment);
+		return true;
 	}
-	
+
 	// ADMIN METHODS
+
+	/**
+	 * Marks or Unmarks segment for viewing remotely and updates DB
+	 * @param segment segment to mark
+	 * @return true if segment is marked/unmarked
+	 */
+	public boolean markSegment(VideoSegment segment){
+		segment.changeMark();
+		return true;
+	}
 	
 	/**
 	 * Marks segment for viewing remotely and updates DB
@@ -188,20 +240,20 @@ public class Library {
 	 * @return true if segment is able to be marked
 	 * @throws LibraryException if segment is already marked
 	 */
-	public boolean markSegment(VideoSegment segment) throws LibraryException {
-		return false;
-	}
-	
+//	public boolean markSegment(VideoSegment segment) throws LibraryException {
+//		return false;
+//	}
+
 	/**
 	 * Unmarks segment for remote viewing and updates DB
 	 * @param segment segment to unmark
 	 * @return true if segment is able to be unmarked
 	 * @throws LibraryException if segment is already unmarked
 	 */
-	public boolean unmarkSegment(VideoSegment segment) throws LibraryException {
-		return false;
-	}
-	
+//	public boolean unmarkSegment(VideoSegment segment) throws LibraryException {
+//		return false;
+//	}
+
 	/**
 	 * Deletes video segment from local library and updates DB
 	 * @param segment segment to delete
@@ -209,9 +261,14 @@ public class Library {
 	 * @throws LibraryException is segment does not exist in library
 	 */
 	public boolean deleteSegment(VideoSegment segment) throws LibraryException {
-		return false;
+		if(!(segments.contains(segment)))
+		{
+			throw new LibraryException("Segment does not exist in library");
+		}
+		segments.remove(segment);
+		return true;
 	}
-	
+
 	/**
 	 * Registers url to retrieve remote segments from
 	 * @param url url to register
@@ -219,9 +276,14 @@ public class Library {
 	 * @throws LibraryException if url is already registered
 	 */
 	public boolean registerRemoteURL(String url) throws LibraryException {
-		return false;
+		if(remoteURLs.contains(url))
+		{
+			throw new LibraryException("URL is already registered in this library");
+		}
+		remoteURLs.remove(url);
+		return true;
 	}
-	
+
 	/**
 	 * Unregisters a remote url
 	 * @param url url to unregister
@@ -229,9 +291,14 @@ public class Library {
 	 * @throws LibraryException if url does not exist in librarys
 	 */
 	public boolean unregisterRemoteURL(String url) throws LibraryException {
-		return false;
+		if(!(remoteURLs.contains(url)))
+		{
+			throw new LibraryException("URL is not registered in this library");
+		}
+		remoteURLs.remove(url);
+		return true;
 	}
-	
-	
-	
+
+
+
 }
