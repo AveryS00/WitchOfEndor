@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.UUID;
 
 import entity.Playlist;
-import entity.VideoSegment;
 
 public class PlaylistDAO {
 	Connection conn;
@@ -41,7 +40,7 @@ public class PlaylistDAO {
 			e.printStackTrace();
 			throw e;
 		} finally {
-			closeStmtRset();
+			DatabaseConnection.closeStmt(pstmt, rset);
 		}
 	}
 	
@@ -64,7 +63,7 @@ public class PlaylistDAO {
 			e.printStackTrace();
 			return false;
 		} finally {
-			closeStmtRset();
+			DatabaseConnection.closeStmt(pstmt, rset);
 		}
 	}
 	
@@ -86,7 +85,7 @@ public class PlaylistDAO {
 			e.printStackTrace();
 			return false;
 		} finally {
-			closeStmtRset();
+			DatabaseConnection.closeStmt(pstmt, rset);
 		}
 	}
 	
@@ -127,7 +126,7 @@ public class PlaylistDAO {
 			String id = rset.getString("playlistID");
 			return id;
 		} finally {
-			closeStmtRset();
+			DatabaseConnection.closeStmt(pstmt, rset);
 		}
 	}
 	
@@ -146,7 +145,7 @@ public class PlaylistDAO {
 			int count = rset.getInt("num");
 			return count;
 		} finally {
-			closeStmtRset();
+			DatabaseConnection.closeStmt(pstmt, rset);
 		}
 	}
 	
@@ -173,7 +172,7 @@ public class PlaylistDAO {
 			e.printStackTrace();
 			return false;
 		} finally {
-			closeStmtRset();
+			DatabaseConnection.closeStmt(pstmt, rset);
 		}
 	}
 	
@@ -193,7 +192,7 @@ public class PlaylistDAO {
 			e.printStackTrace();
 			return null;
 		} finally {
-			closeStmtRset();
+			DatabaseConnection.closeStmt(pstmt, rset);
 		}
 	}
 	
@@ -214,7 +213,7 @@ public class PlaylistDAO {
 			e.printStackTrace();
 			return null;
 		} finally {
-			closeStmtRset();
+			DatabaseConnection.closeStmt(pstmt, rset);
 		}
 	}
 	
@@ -258,23 +257,7 @@ public class PlaylistDAO {
 			e.printStackTrace();
 			throw e;
 		} finally {
-			closeStmtRset();
-		}
-	}
-	
-	/**
-	 * Closes the Rset and Pstmt.
-	 */
-	private void closeStmtRset () {
-		try {
-			if (rset != null) {
-				rset.close();
-			}
-			if (pstmt != null) {
-				pstmt.close();
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+			DatabaseConnection.closeStmt(pstmt, rset);
 		}
 	}
 }

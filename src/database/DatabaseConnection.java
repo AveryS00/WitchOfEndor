@@ -2,6 +2,8 @@ package database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class DatabaseConnection {
@@ -31,6 +33,24 @@ public class DatabaseConnection {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw e;
+		}
+	}
+	
+	/**
+	 * Helper to close the pstmt and rset used by the other DAO objects after finished.
+	 * @param pstmt The PreparedStatement to close.
+	 * @param rset The ResultSet to close.
+	 */
+	protected static void closeStmt (PreparedStatement pstmt, ResultSet rset) {
+		try {
+			if (rset != null) {
+				rset.close();
+			}
+			if (pstmt != null) {
+				pstmt.close();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 	}
 }

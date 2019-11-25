@@ -43,7 +43,7 @@ public class VideoSegmentDAO {
 			e.printStackTrace();
 			throw e;
 		} finally {
-			closeStmtRset();
+			DatabaseConnection.closeStmt(pstmt, rset);
 		}
 	}
 	
@@ -69,7 +69,7 @@ public class VideoSegmentDAO {
 			e.printStackTrace();
 			return false;
 		} finally {
-			closeStmtRset();
+			DatabaseConnection.closeStmt(pstmt, rset);
 		}
 	}
 	
@@ -96,7 +96,7 @@ public class VideoSegmentDAO {
 			e.printStackTrace();
 			return false;
 		} finally {
-			closeStmtRset();
+			DatabaseConnection.closeStmt(pstmt, rset);
 		}
 	}
 	
@@ -119,7 +119,7 @@ public class VideoSegmentDAO {
 			e.printStackTrace();
 			return false;
 		} finally {
-			closeStmtRset();
+			DatabaseConnection.closeStmt(pstmt, rset);
 		}
 	}
 	
@@ -141,7 +141,7 @@ public class VideoSegmentDAO {
 			e.printStackTrace();
 			return false;
 		} finally {
-			closeStmtRset();
+			DatabaseConnection.closeStmt(pstmt, rset);
 		}
 	}
 	
@@ -162,7 +162,7 @@ public class VideoSegmentDAO {
 			e.printStackTrace();
 			return null;
 		} finally {
-			closeStmtRset();
+			DatabaseConnection.closeStmt(pstmt, rset);
 		}
 	}
 	
@@ -172,22 +172,6 @@ public class VideoSegmentDAO {
 	 */
 	public void close () throws SQLException {
 		conn.close();
-	}
-	
-	/**
-	 * Closes the PreparedStatement and ResultSet
-	 */
-	private void closeStmtRset () {
-		try {
-			if (rset != null) {
-				rset.close();
-			}
-			if (pstmt != null) {
-				pstmt.close();
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
 	}
 	
 	/**

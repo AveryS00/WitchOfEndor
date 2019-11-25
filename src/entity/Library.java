@@ -3,6 +3,8 @@ package entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import database.PlaylistDAO;
+import database.RemoteSiteDAO;
 import database.VideoSegmentDAO;
 import exceptions.LibraryException;
 
@@ -20,11 +22,17 @@ public class Library {
 
 	void populateLibraryFromDB() {
 		VideoSegmentDAO segmentDB;
+		PlaylistDAO playlistDB;
+		RemoteSiteDAO remoteDB;
 		try {
 			segmentDB = new VideoSegmentDAO();
 			segments = segmentDB.listAllVideoSegments();
+			playlistDB = new PlaylistDAO();
+			playlists = playlistDB.listAllPlaylists();
+			remoteDB = new RemoteSiteDAO();
+			remoteURLs = remoteDB.listAllRemoteSites();
 		} catch (Exception ex) {
-			
+			ex.printStackTrace();
 		}
 	}
 
