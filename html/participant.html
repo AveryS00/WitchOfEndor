@@ -3,31 +3,31 @@
 	<head>
 		
 		<title>Participant Landing Page</title>
-		<script type='text/javascript' src='../js/participant.js'></script>
+		<script type='text/javascript' src='../js/api.js'></script>
+		<script type='text/javascript' src='../js/participant/listSegments.js'></script>
+		<script type='text/javascript' src='../js/participant/listPlaylist.js'></script>
+		
+		<script type='text/javascript' src='../js/participant/participant.js'></script>
 		
 	</head>
 
 	<body>
 		
 		<hr>
-		<div id="allSegments">
+		<h3>Local Video Segments</h3>
+		<button onclick="toggleSegments()" id="segmentToggle">Show Segments</button>
+		<div id="allSegments" hidden=true>
 		
-			<h3>Local Video Segments</h3>
-			
-			<ul id="segmentList">
-				<li>JS populates list</li>
-			</ul>
+			<ul id="segmentList"></ul>
 			
 		</div>
 		
 		<hr>
-		<div id="allPlaylists">
-		
-			<h3>Playlists</h3>
+		<h3>Playlists</h3>
+		<button onclick="togglePlaylists()" id="playlistToggle">Show Playlists</button>
+		<div id="allPlaylists" hidden=true>
 			
-			<ul id="playlistList">
-				<li>JS populates list</li>
-			</ul>
+			<ul id="playlistList"></ul>
 			
 		</div>
 		

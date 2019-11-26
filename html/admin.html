@@ -2,23 +2,22 @@
 
 	<head>
 		
-		<title>Participant Landing Page</title>
-		<script type='text/javascript' src='../js/admin.js'></script>
+		<title>Admin Landing Page</title>
+		<script type='text/javascript' src='../js/api.js'></script>
+		<script type='text/javascript' src='../js/admin/listSegments.js'></script>
+		<script type='text/javascript' src='../js/admin/admin.js'></script>
 		
 	</head>
 
 	<body>
 		
 		<hr>
-		<div id="allSegments">
+		<h3>Local Video Segments</h3>
+		<button onclick="toggleSegments()" id="segmentToggle">Show Segments</button>
+		<div id="allSegments" hidden=true>
 		
-			<h3>Local Video Segments</h3>
-			
 			<ul id="segmentList">
-				<div id="video_id">
-					<p>Video here</p>
-					<button onclick="handleMarkRequest(video_id)">Mark/Unmark</button>
-				</div>
+			
 			</ul>
 			
 		</div>

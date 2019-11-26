@@ -17,6 +17,15 @@ public class Playlist {
 		videos = new ArrayList<VideoSegment>();
 	}
 	
+	public ArrayList<VideoSegment> getVideos() {
+		return this.videos;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	
 	/**
 	 * Appends the given VideoSegment to the end of the Playlist.
 	 * @param vs The VideoSegment to append.

@@ -6,9 +6,9 @@ import java.util.List;
 import entity.Playlist;
 
 public class ListPlaylistResponse {
-	public final List<Playlist> list;
-	public final int statusCode; 
-	public final String error;
+	public List<Playlist> list;
+	public int statusCode; 
+	public String error;
 
 	public ListPlaylistResponse(List<Playlist> list, int code) {
 		this.list = list;
