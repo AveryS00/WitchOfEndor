@@ -13,14 +13,14 @@ public class Library {
 	List<VideoSegment> segments;
 	List<String> remoteURLs;
 
-	public Library() {
+	public Library() throws LibraryException {
 		playlists = new ArrayList<Playlist>();
 		segments = new ArrayList<VideoSegment>();
 		remoteURLs = new ArrayList<String>();
 		populateLibraryFromDB();
 	}
 
-	void populateLibraryFromDB() {
+	void populateLibraryFromDB() throws LibraryException {
 		VideoSegmentDAO segmentDB;
 		PlaylistDAO playlistDB;
 		RemoteSiteDAO remoteDB;
@@ -33,6 +33,7 @@ public class Library {
 			remoteURLs = remoteDB.listAllRemoteSites();
 		} catch (Exception ex) {
 			ex.printStackTrace();
+			throw new LibraryException("Failed to Access Database");
 		}
 	}
 
