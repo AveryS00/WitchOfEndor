@@ -6,5 +6,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="lib" path="test/database/ojdbc6.jar"/>
 	<classpathentry kind="lib" path="aws-lambda-java-core-1.1.0.jar"/>
+	<classpathentry kind="lib" path="mysql-connector-java-5.1.6.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

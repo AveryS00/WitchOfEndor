@@ -14,9 +14,9 @@ public class RemoteSiteDAO {
 	
 	/**
 	 * Constructs a connection to the RDS to get and remove RemoteSites.
-	 * @throws SQLException
+	 * @throws Exception 
 	 */
-	public RemoteSiteDAO () throws SQLException {
+	public RemoteSiteDAO () throws Exception {
 		conn = DatabaseConnection.connect();
 	}
 	

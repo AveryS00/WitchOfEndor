@@ -22,6 +22,7 @@ public class TestDatabase {
 	
 	static Connection conn;
 	static TestVSDAO vsDao;
+	static TestPlaylistDAO plDao;
 	
 	/**
 	 * Uses personal allocated Oracle server for those that have taken CS3431 Database Systems.
@@ -43,6 +44,7 @@ public class TestDatabase {
 			String password = scanner.nextLine();
 			conn = DriverManager.getConnection("jdbc:oracle:thin:@csorcl.cs.wpi.edu:1521:orcl", username, password);
 			vsDao = new TestVSDAO(conn);
+			plDao = new TestPlaylistDAO(conn);
 			scanner.close();
 		} catch (SQLException e) {
 			System.out.println("Unable to connect to test database");
@@ -53,7 +55,7 @@ public class TestDatabase {
 	@AfterClass
 	public static void oneTimeTearDown () {
 		try {
-			vsDao.close();
+			conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}	
@@ -121,5 +123,10 @@ public class TestDatabase {
 		assertTrue(vsDao.deleteVideoSegment("/right/here.aws"));
 		assertTrue(vsDao.deleteVideoSegment("/there.aws"));
 		assertTrue(vsDao.deleteVideoSegment("/somewhere.aws"));
+	}
+	
+	@Test
+	public void testPlaylist () {
+		
 	}
 }

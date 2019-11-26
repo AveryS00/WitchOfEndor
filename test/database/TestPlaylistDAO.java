@@ -10,17 +10,17 @@ import java.util.UUID;
 
 import entity.Playlist;
 
-public class PlaylistDAO {
+public class TestPlaylistDAO {
 	Connection conn;
 	PreparedStatement pstmt;
 	ResultSet rset;
 	
 	/**
 	 * Constructs a DAO object for Playlists.
-	 * @throws Exception 
+	 * @throws SQLException
 	 */
-	public PlaylistDAO () throws Exception {
-		conn = DatabaseConnection.connect();
+	public TestPlaylistDAO (Connection conn) throws SQLException {
+		this.conn = conn;
 	}
 
 	/**
@@ -54,7 +54,7 @@ public class PlaylistDAO {
 			if (isInDatabase(name)) {
 				return false;
 			}
-			pstmt = conn.prepareStatement("INSERT INTO Library (playlistID, playlistName) VALUES (?, ?)");
+			pstmt = conn.prepareStatement("INSERT INTO Library VALUES (?, ?)");
 			pstmt.setString(1, UUID.randomUUID().toString());
 			pstmt.setString(2, name);
 			pstmt.executeUpdate();
@@ -99,7 +99,7 @@ public class PlaylistDAO {
 		try {
 			String id = getID(name);
 			int order = getNumVideos(id);
-			pstmt = conn.prepareStatement("INSERT INTO Playlist (playlistID, videoLocation, videoOrder) VALUES (?, ?, ?)");
+			pstmt = conn.prepareStatement("INSERT INTO Playlist VALUES (?, ?, ?)");
 			pstmt.setString(1, id);
 			pstmt.setString(2, videoLocation);
 			pstmt.setInt(3, order + 1);

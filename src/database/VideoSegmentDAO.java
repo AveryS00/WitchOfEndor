@@ -16,9 +16,9 @@ public class VideoSegmentDAO {
 	
 	/**
 	 * Constructs a DAO object for VideoSegments
-	 * @throws SQLException if unable to connect to Database.
+	 * @throws Exception 
 	 */
-	public VideoSegmentDAO () throws SQLException {
+	public VideoSegmentDAO () throws Exception {
 		this.conn = DatabaseConnection.connect();
 	}
 	
