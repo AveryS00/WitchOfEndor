@@ -17,10 +17,10 @@ public class ListSegmentsHandler implements RequestHandler<Object, ListSegmentsR
 
 	@Override
 	public ListSegmentsResponse handleRequest(Object arg0, Context arg1) {
-		Library library = new Library();
-		List<VideoSegment> segments;
 		ListSegmentsResponse response;
 		try {
+			Library library = new Library();
+			List<VideoSegment> segments;
 			segments = library.getAllSegments();
 			response = new ListSegmentsResponse(segments, 200, "");
 		} catch (LibraryException ex) {
