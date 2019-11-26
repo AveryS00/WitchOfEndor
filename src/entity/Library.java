@@ -128,7 +128,10 @@ public class Library {
 		throw new LibraryException("Named playlist doesn not exist");
 	}
 
-	public List<Playlist> getPlaylists() {
+	public List<Playlist> getPlaylists() throws LibraryException {
+		if(this.playlists.size() == 0) {
+			throw new LibraryException("No Playlists found in Library");
+		}
 		return this.playlists;
 	}
 
