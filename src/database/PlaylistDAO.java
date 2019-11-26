@@ -158,12 +158,12 @@ public class PlaylistDAO {
 	public boolean removeVideoFromPlaylist (String name, int order) {
 		try {
 			String id = getID(name);
-			pstmt = conn.prepareStatement("DELETE FROM Playlist WHERE playlistID = ?, videoOrder = ?");
+			pstmt = conn.prepareStatement("DELETE FROM Playlist WHERE playlistID = ? AND videoOrder = ?");
 			pstmt.setString(1, id);
 			pstmt.setInt(2, order);
 			pstmt.executeUpdate();
 			pstmt.close();
-			pstmt = conn.prepareStatement("UPDATE FROM Playlist SET videoOrder = videoOrder - 1 WHERE playlistID = ?, videoOrder > ?");
+			pstmt = conn.prepareStatement("UPDATE Playlist SET videoOrder = videoOrder - 1 WHERE playlistID = ? AND videoOrder > ?");
 			pstmt.setString(1, id);
 			pstmt.setInt(2, order);
 			pstmt.executeUpdate();

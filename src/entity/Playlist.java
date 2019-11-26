@@ -14,6 +14,7 @@ public class Playlist {
 	 */
 	public Playlist (String name) {
 		this.name = name;
+		videos = new ArrayList<VideoSegment>();
 	}
 	
 	/**
@@ -67,7 +68,7 @@ public class Playlist {
 		}
 		if (o instanceof Playlist) {
 			Playlist p = (Playlist) o;
-			return p.name == this.name;
+			return p.name.equals(this.name);
 		}
 		return false;
 	}
@@ -75,7 +76,6 @@ public class Playlist {
 	/**
 	 * Outputs the name of the Playlist to be the string.
 	 */
-	@Override
 	public String toString () {
 		return this.name;
 	}

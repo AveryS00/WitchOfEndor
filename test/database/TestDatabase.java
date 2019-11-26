@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -16,6 +17,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import entity.Playlist;
 import entity.VideoSegment;
 
 public class TestDatabase {
@@ -127,6 +129,68 @@ public class TestDatabase {
 	
 	@Test
 	public void testPlaylist () {
-		
+		try {
+			assertTrue(plDao.createPlaylist("PL1"));
+			assertTrue(plDao.getPlaylist("PL1").equals(new Playlist("PL1")));
+			assertTrue(plDao.deletePlaylist("PL1"));
+			
+			assertTrue(plDao.createPlaylist("PL1"));
+			assertFalse(plDao.createPlaylist("PL1"));
+			
+			assertTrue(plDao.createPlaylist("PL2"));
+			assertTrue(plDao.createPlaylist("PL3"));
+			List<Playlist> pls = new ArrayList<Playlist>();
+			pls.add(new Playlist("PL1"));
+			pls.add(new Playlist("PL2"));
+			pls.add(new Playlist("PL3"));
+			assertTrue(plDao.listAllPlaylists().containsAll(pls));
+			
+			assertTrue(plDao.deletePlaylist("PL1"));
+			assertFalse(plDao.deletePlaylist("PL1"));
+			assertTrue(plDao.deletePlaylist("PL2"));
+			assertTrue(plDao.deletePlaylist("PL3"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void testDeleteFromPlaylist () {
+		try {
+			plDao.createPlaylist("PL1");
+			vsDao.addVideoSegment(new VideoSegment("/right/here.aws", "Spock", "Live long and prosper", true));
+			vsDao.addVideoSegment(new VideoSegment("/there.aws", "Kirk", "Hi There", true));
+			vsDao.addVideoSegment(new VideoSegment("/somewhere.aws", "Red Shirt", "Help Me", false));
+			vsDao.addVideoSegment(new VideoSegment("/hi.aws", "guy", "why", false));
+			plDao.appendVideoToPlaylist("PL1", "/right/here.aws");
+			plDao.appendVideoToPlaylist("PL1", "/there.aws");
+			plDao.appendVideoToPlaylist("PL1", "/somewhere.aws");
+			plDao.appendVideoToPlaylist("PL1", "/hi.aws");
+			
+			List<VideoSegment> list = new ArrayList<VideoSegment>();
+			list.add(new VideoSegment("/right/here.aws", "Spock", "Live long and prosper", true));
+			list.add(new VideoSegment("/there.aws", "Kirk", "Hi There", true));
+			list.add(new VideoSegment("/somewhere.aws", "Red Shirt", "Help Me", false));
+			list.add(new VideoSegment("/hi.aws", "guy", "why", false));
+			
+			Iterator<VideoSegment> it = plDao.getPlaylist("PL1").iterator();
+			for (int i = 0; i < 4; i++) {
+				assertEquals(it.next(), list.get(i));
+			}
+			plDao.removeVideoFromPlaylist("PL1", 2);
+			list.remove(1);
+			it = plDao.getPlaylist("PL1").iterator();
+			for (int i = 0; i < 3; i++) {
+				assertEquals(it.next(), list.get(i));
+			}
+			
+			assertTrue(plDao.deletePlaylist("PL1"));
+			assertTrue(vsDao.deleteVideoSegment("/right/here.aws"));
+			assertTrue(vsDao.deleteVideoSegment("/there.aws"));
+			assertTrue(vsDao.deleteVideoSegment("/somewhere.aws"));
+			assertTrue(vsDao.deleteVideoSegment("/hi.aws"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
