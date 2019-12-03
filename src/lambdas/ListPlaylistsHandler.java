@@ -6,7 +6,6 @@ import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 
-import database.PlaylistDAO;
 import entity.Library;
 import entity.Playlist;
 import http.ListPlaylistResponse;
