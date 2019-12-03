@@ -1,9 +1,8 @@
-function handleAppendClick(e) {
-	var form = document.appendForm;
+function handleDeletePlaylistClick(e) {
+var form = document.deletePlaylistForm;
 	
 	var data = {};
 	data["playlistName"] = form.playlistName.value;
-	data["videoLocation"] = form.videoLocation.value;
 	
 	var js = JSON.stringify(data);
 	console.log("JS:" + js);
@@ -18,7 +17,6 @@ function handleAppendClick(e) {
 		if (xhr.readyState == XMLHttpRequest.DONE) {
 			if (xhr.status == 200) {
 				console.log("XHR: " + xhr.responseText);
-				//processAppendResponse(xhr.repsonseText);
 				//refreshPlaylistSegmentsList();
 			} else {
 				console.log("actual:" + xhr.responseText);

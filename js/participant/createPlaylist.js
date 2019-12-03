@@ -1,14 +1,13 @@
-function handleAppendClick(e) {
-	var form = document.appendForm;
+function handleCreateNewPlaylist() {
+	var form = document.createPlaylistForm;
 	
 	var data = {};
 	data["playlistName"] = form.playlistName.value;
-	data["videoLocation"] = form.videoLocation.value;
 	
 	var js = JSON.stringify(data);
 	console.log("JS:" + js);
 	var xhr = new XMLHttpRequest();
-	xhr.open("POST", append_url, true);
+	xhr.open("POST", create_playlist_url, true);
 	
 	xhr.send(js);
 	
@@ -17,9 +16,8 @@ function handleAppendClick(e) {
 		console.log(xhr.request);
 		if (xhr.readyState == XMLHttpRequest.DONE) {
 			if (xhr.status == 200) {
-				console.log("XHR: " + xhr.responseText);
-				//processAppendResponse(xhr.repsonseText);
-				//refreshPlaylistSegmentsList();
+				console.log("XHR:" + xhr.responseText);
+				listPlaylist();
 			} else {
 				console.log("actual:" + xhr.responseText);
 				var js = JSON.parse(xhr.responseText);
