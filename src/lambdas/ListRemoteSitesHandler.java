@@ -2,6 +2,7 @@ package lambdas;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.LambdaLogger;
@@ -26,9 +27,54 @@ public class ListRemoteSitesHandler implements RequestHandler<Object,ListRemoteS
 		return dao.listAllRemoteSites();
 	}
 	
+	private AmazonS3 s3;
+	
 	List<String> systemRemoteSites() throws Exception 
 	{
-		return null;
+		logger.log("in systemRemoteSites");
+		if (s3 == null)
+		{
+			logger.log("attach to S3 request");
+			s3 = AmazonS3ClientBuilder.standard().withRegion(Regions.US_EAST_2).build();
+			logger.log("attach to S3 succeed");
+		}
+		
+		ArrayList<String> sysRemoteSites = new ArrayList<>();
+		
+		ListObjectsV2Request listObjectsRequest = new ListObjectsV2Request()
+				.withBucketName("")
+				.withPrefix("remoteSites");
+		
+		logger.log("process request");
+		ListObjectsV2Result result = s3.listObjectsV2(listObjectsRequest);
+		logger.log("process request succeeded");
+		List<S3ObjectSummary> objects = result.getObjectSummaries();
+		
+		for (S3ObjectSummary os: objects)
+		{
+			String name = os.getKey();
+			logger.log("S3 found:" + name);
+			
+			if(name.endsWith("/"))
+			{
+				continue;
+			}
+			
+			S3Object obj = s3.getObject("", name);
+			
+			try (S3ObjectInputStream constantStream = obj.getObjectContent())
+			{
+				
+				int postSlash = name.indexOf('/');
+				sysRemoteSites.add(name.substring(postSlash+1));
+			}
+			catch (Exception e)
+			{
+				logger.log("Unable to parse contents of " + name);
+			}
+		}
+		
+		return sysRemoteSites;
 	}
 	
 	@Override

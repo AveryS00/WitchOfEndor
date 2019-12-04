@@ -11,7 +11,7 @@ import http.MarkVideoSegmentResponse;
 
 public class FlipMarkVideoSegmentHandler implements RequestHandler<MarkVideoSegmentRequest, MarkVideoSegmentResponse>
 {
-	public LambdaLogger logger = null;
+	public LambdaLogger logger;
 	
 	@Override
 	public MarkVideoSegmentResponse handleRequest(MarkVideoSegmentRequest req, Context context) 
