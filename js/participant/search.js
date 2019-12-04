@@ -1,29 +1,43 @@
 
-
-function listVideoSegments() {
+function handleSearchForSegment() {
+	var character = document.getElementById("characterSearch").value;
+	var phrase = document.getElementById("phraseSearch").value;
+	
+	
 	var xhr = new XMLHttpRequest();
 	
-	xhr.open("GET", segment_url, true);
+	xhr.open("POST", search_url, true);
+	
+	data = {}
+	data['character'] = character
+	data['phrase'] = phrase
+	
+	json = JSON.stringify(data)
+	console.log("Searching for: " + json)
 	
 	// send the collected data as JSON
-	xhr.send("");
+	xhr.send(json);
 	
 	// This will process results and update HTML as appropriate. 
 	xhr.onloadend = function () {
 		console.log(xhr);
 		console.log(xhr.request);
 		if (xhr.readyState == XMLHttpRequest.DONE) {
-			processListVideoSegmentsResponse(xhr.responseText);
+			processSearchResponse(xhr.responseText);
 		} else {
-			processListVideoSegmentsResponse("N/A");
+			processSearchResponse("N/A");
 		}
 	};
 }
 
-function processListVideoSegmentsResponse(txt) {
+function processSearchResponse(txt) {
 	console.log("result: " + txt)
 	var json = JSON.parse(txt)
-	var list = document.getElementById('segmentList')
+	var list = document.getElementById('searchList')
+	list.innerHTML = '';
+	var resultLabel = document.createElement('h4');
+	resultLabel.innerHTML = "Results";
+	list.appendChild(resultLabel)
 	// if error show error
 	if(json.statusCode != 200) {
 		var errorElement = document.createElement('p');
@@ -36,9 +50,10 @@ function processListVideoSegmentsResponse(txt) {
 	
 }
 
+
 function generateVideoList(json, list) {
-	for(segment in json.videoSegments) {
-		segment = json.videoSegments[segment];
+	for(segment in json.segments) {
+		segment = json.segments[segment];
 		if(!segment.isLocal) {
 			continue;
 		}
@@ -58,24 +73,7 @@ function generateVideoList(json, list) {
 		li.appendChild(title);
 		li.appendChild(character);
 		li.appendChild(video);
-		li.appendChild(createMarkToggleButton(segment))
 		list.appendChild(li);
 	}
-}
-
-
-function createMarkToggleButton(segment) {
-	var button = document.createElement('button');
-	if(segment.isMarked) {
-		button.innerHTML = "Unmark Segment";
-	} else {
-		button.innerHTML = "Mark Segment";
-	}
-	button.onclick = handleToggleClick;
-	return button;
-}
-
-function handleToggleClick() {
-	alert("Toggle Mark Clicked");
 }
 

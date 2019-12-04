@@ -66,11 +66,27 @@ public class Library {
 		{
 			if(segments.get(i).equals(segment))
 			{
+				
 				segments.remove(i);
 				return true;
 			}
 		}
 		throw new LibraryException("Segment not in library.");
+	}
+	
+	public boolean removeSegment(String url) throws LibraryException {
+		for(int i = 0; i < segments.size(); i++) {
+			if(segments.get(i).location.equals(url)) {
+				try {
+					VideoSegmentDAO dao = new VideoSegmentDAO();
+					dao.deleteVideoSegment(url);
+					return true;
+				} catch (Exception e) {
+					throw new LibraryException("Cannot connect to database");
+				}
+			}
+		}
+		throw new LibraryException("Segment not in library");
 	}
 
 	// PARTICIPANT METHODS
@@ -149,14 +165,33 @@ public class Library {
 
 	/**
 	 * Removes video segment from playlist and updates DB
-	 * @param p playlist
-	 * @param v video segment
+	 * @param p playlistName name of playlist to delete from
+	 * @param location location of segment to delete
 	 * @return true if segment was removed
 	 * @throws LibraryException if segment is not in playlist
 	 */
-	public boolean removeSegmentFromPlaylist(Playlist p, VideoSegment v) throws LibraryException {
-		// how does this handle trying to remove a segment that is in the playlist twice
-		return p.removeSegment(v);
+	public boolean removeSegmentFromPlaylist(String playlistName, int location) throws LibraryException {
+		Playlist playlist = null;
+		for(Playlist p : playlists) {
+			if(p.name.equals(playlistName)) {
+				playlist = p;
+				break;
+			}
+		}
+		if(playlist == null) {
+			throw new LibraryException("Playlist not found in library");
+		}
+		
+		if(location < 1 && location > playlist.videos.size()) {
+			throw new LibraryException("Invalid position in playlist");
+		}
+		try {
+			PlaylistDAO dao = new PlaylistDAO();
+			dao.removeVideoFromPlaylist(playlistName, location);
+			return true;
+		} catch (Exception e) {
+			throw new LibraryException("Cannot connect to database");
+		}
 	}
 
 	/**
@@ -215,8 +250,15 @@ public class Library {
 	 * @throws LibraryException if no character or phrase is specified
 	 */
 	public List<VideoSegment> searchForSegments(String character, String phrase) throws LibraryException {
-		// easier to handle in browser
-		return null;
+		List<VideoSegment> segments = new ArrayList<VideoSegment>();
+		for(VideoSegment s : this.segments) {
+			if(character != null && s.character.toLowerCase().equals(character.toLowerCase())) {
+				segments.add(s);
+			} else if (phrase != null && s.name.toLowerCase().contains(phrase.toLowerCase())) {
+				segments.add(s);
+			}
+		}
+		return segments;
 	}
 
 	/**
@@ -292,7 +334,15 @@ public class Library {
 		{
 			throw new LibraryException("URL is already registered in this library");
 		}
-		remoteURLs.remove(url);
+		remoteURLs.add(url);
+		try {
+			RemoteSiteDAO dao = new RemoteSiteDAO();
+			if(!dao.addRemoteSite(url)) {
+				throw new LibraryException("URL is already registered in Database");
+			}
+		} catch (Exception e) {
+			throw new LibraryException("Failed to access Database");
+		}
 		return true;
 	}
 

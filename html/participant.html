@@ -6,6 +6,8 @@
 		<script type='text/javascript' src='../js/api.js'></script>
 		<script type='text/javascript' src='../js/participant/listSegments.js'></script>
 		<script type='text/javascript' src='../js/participant/listPlaylist.js'></script>
+		<script type='text/javascript' src='../js/participant/search.js'></script>
+		<script type='text/javascript' src='../js/participant/deleteFromPlaylist.js'></script>
 		
 		<script type='text/javascript' src='../js/participant/participant.js'></script>
 		
@@ -44,17 +46,32 @@
 		</div>
 		
 		<hr>
+		<div id="deleteFromPlaylist">
+			<h3>Delete Segment from Playlist</h3>
+			
+			<p>
+				Playlist Name: <input type="text" id="deleteFromPlaylistName"> <br>
+				Location in Playlist (Starting at 1) <input type="text" id="deleteFromPlaylistSegmentName"> <br>
+				<button onclick="handleDeleteFromPlaylistRequest()">Delete</button>
+			</p>
+		</div>
+		
+		<hr>
 		<div id="searchSegments">
 		
 			<h3>Search for Segment</h3>
 			
-			<form id="searchSegmentsForm" onsubmit="handleSearchForSegment()" method="post">
-				Character: <input type="text" name="character"> <br>
-				Phrase: <input type="text" name="phrase"> <br>
-				<input type="submit" value="Search">
-			</form>
+			<p>
+				Character: <input type="text" id="characterSearch"> <br>
+				Phrase: <input type="text" id="phraseSearch"> <br>
+				<button onclick="handleSearchForSegment()">Search</button>
+			</p>
+			
+			<ul id="searchList"></ul>
 			
 		</div>
+		
+		
 	</body>
 	
 

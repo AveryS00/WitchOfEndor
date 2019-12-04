@@ -6,6 +6,7 @@
 		<script type='text/javascript' src='../js/api.js'></script>
 		<script type='text/javascript' src='../js/admin/listSegments.js'></script>
 		<script type='text/javascript' src='../js/admin/admin.js'></script>
+		<script type='text/javascript' src='../js/admin/registerSite.js'></script>
 		
 	</head>
 
@@ -27,10 +28,10 @@
 		
 			<h3>Register New URL</h3>
 			
-			<form id="registerURLForm" onsubmit="handleRegisterURL()" method="post">
-				URL: <input type="text" name="name"> <br>
-				<input type="submit" value="Register URL">
-			</form>
+			<p id="registerURLForm">
+			URL: <input type="text" id="registerURLInput"> <br>
+			</p>
+			<button onclick="handleRegisterURL()">Register Remote URL</button>
 			
 		</div>
 		
