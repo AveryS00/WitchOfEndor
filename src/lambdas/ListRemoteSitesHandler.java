@@ -8,6 +8,7 @@ import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 
 import database.RemoteSiteDAO;
+import edu.wpi.cs.heineman.calculator.model.Constant;
 import http.ListRemoteSitesResponse;
 
 public class ListRemoteSitesHandler implements RequestHandler<Object,ListRemoteSitesResponse>{
@@ -25,6 +26,11 @@ public class ListRemoteSitesHandler implements RequestHandler<Object,ListRemoteS
 		return dao.listAllRemoteSites();
 	}
 	
+	List<String> systemRemoteSites() throws Exception 
+	{
+		return null;
+	}
+	
 	@Override
 	public ListRemoteSitesResponse handleRequest(Object input, Context context)  {
 		logger = context.getLogger();
@@ -35,8 +41,8 @@ public class ListRemoteSitesHandler implements RequestHandler<Object,ListRemoteS
 			// get all user defined constants AND system-defined constants.
 			// Note that user defined constants override system-defined constants.
 			List<String> list = getRemoteSites();
-			for (String rs : systemConstants()) {
-				if (!list.contains(systemConstants())) {
+			for (String rs : systemRemoteSites()) {
+				if (!list.contains(systemRemoteSites())) {
 					list.add(rs);
 				}
 			}
