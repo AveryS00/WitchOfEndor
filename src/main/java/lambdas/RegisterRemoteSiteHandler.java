@@ -3,6 +3,8 @@ package lambdas;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 
+import database.PlaylistDAO;
+import database.RemoteSiteDAO;
 import entity.Library;
 import exceptions.LibraryException;
 import http.RegisterRemoteSiteRequest;
@@ -18,11 +20,17 @@ public class RegisterRemoteSiteHandler implements
 	public RegisterRemoteSiteResponse handleRequest(RegisterRemoteSiteRequest request, Context context) {
 		try {
 			Library lib = new Library();
-			lib.registerRemoteURL(request.url);
-		} catch (LibraryException e) {
+			RemoteSiteDAO dao = new RemoteSiteDAO();
+			String url = request.url;
+			if(dao.listAllRemoteSites().contains(url)) {
+				return new RegisterRemoteSiteResponse(409, "Remote Site Already Registered");
+			}
+			dao.addRemoteSite(url);
+			return new RegisterRemoteSiteResponse(200, "");
+			
+		} catch (Exception e) {
 			return new RegisterRemoteSiteResponse(400, e.getMessage());
 		}
-		return new RegisterRemoteSiteResponse(200, "");
 	}
 	
 }

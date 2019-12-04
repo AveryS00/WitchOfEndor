@@ -1,11 +1,5 @@
 package lambdas;
 
-import static org.junit.Assert.fail;
-
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-
 import com.amazonaws.services.lambda.runtime.Context;
 
 public abstract class LambdaTest {

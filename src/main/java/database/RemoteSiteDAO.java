@@ -105,4 +105,13 @@ public class RemoteSiteDAO {
 			DatabaseConnection.closeStmt(pstmt, rset);
 		}
 	}
+	
+	/**
+	 * Closes the connection to the database after all work has been finished with the DAO.
+	 * @throws SQLException
+	 */
+	public void close () throws SQLException {
+		conn.close();
+	}
+	
 }

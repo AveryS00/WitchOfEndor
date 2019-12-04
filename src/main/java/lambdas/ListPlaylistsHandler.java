@@ -29,7 +29,6 @@ public class ListPlaylistsHandler implements RequestHandler<Object,ListPlaylistR
 			List<Playlist> list = library.getPlaylists();
 			
 			response = new ListPlaylistResponse(list, 200);
-			response.error = list.get(0).toString();
 		} catch (Exception e) {
 			response = new ListPlaylistResponse(403, e.getMessage());
 		}
