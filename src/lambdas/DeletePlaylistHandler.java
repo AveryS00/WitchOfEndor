@@ -1,13 +1,31 @@
 package lambdas;
 
-import entity.Library;
+import com.amazonaws.services.lambda.runtime.Context;
+import com.amazonaws.services.lambda.runtime.LambdaLogger;
+import com.amazonaws.services.lambda.runtime.RequestHandler;
 
-public class DeletePlaylistHandler {
-	Library lib;
+import database.PlaylistDAO;
+import http.DeletePlaylistRequest;
+import http.DeletePlaylistResponse;
+
+public class DeletePlaylistHandler implements RequestHandler<DeletePlaylistRequest, DeletePlaylistResponse> {
+
+	LambdaLogger logger;
 	
-	public DeletePlaylistHandler(Library l)
-	{
-		lib = l;
+	@Override
+	public DeletePlaylistResponse handleRequest(DeletePlaylistRequest req, Context context) {
+		
+		DeletePlaylistResponse response;
+		try {
+			PlaylistDAO plDao = new PlaylistDAO();
+			plDao.deletePlaylist(req.getPlaylistName());
+			response = new DeletePlaylistResponse("Playlist deleted", 200);
+			plDao.close();
+		} catch (Exception e) {
+			response = new DeletePlaylistResponse("Unable to delete Playlist: " + req.getPlaylistName() + "(" + e.getMessage() + ")", 400);
+		}
+		return response;
 	}
+	
 
 }
