@@ -20,11 +20,11 @@ public class AppendSegmentToPlaylistHandler implements RequestHandler<AppendSegm
 		AppendSegmentResponse response;
 		try {
 			PlaylistDAO plDAO = new PlaylistDAO();
-			plDAO.appendVideoToPlaylist(req.playlistName, req.videoLocation);
-			response = new AppendSegmentResponse("VideoSegment " + req.videoLocation + "added to Playlist " + req.playlistName, 200);
+			plDAO.appendVideoToPlaylist(req.getPlaylistName(), req.getVideoLocation());
+			response = new AppendSegmentResponse("VideoSegment " + req.getVideoLocation() + "added to Playlist " + req.getPlaylistName(), 200);
 			plDAO.close();
 		} catch (Exception e) {
-			response = new AppendSegmentResponse("Unable to append video segment, " + req.videoLocation + ", to Playlist: " + req.playlistName + "(" + e.getMessage() + ")", 400);
+			response = new AppendSegmentResponse("Unable to append video segment, " + req.getVideoLocation() + ", to Playlist: " + req.getPlaylistName() + "(" + e.getMessage() + ")", 400);
 		}
 		return response;
 	}

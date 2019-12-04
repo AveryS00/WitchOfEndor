@@ -20,7 +20,7 @@ public class CreatePlaylistHandler implements RequestHandler<CreatePlaylistReque
 		CreatePlaylistResponse response;
 		try {
 			PlaylistDAO plDao = new PlaylistDAO();
-			plDao.createPlaylist(req.playlistName);
+			plDao.createPlaylist(req.getPlaylistName());
 			plDao.close();
 			response = new CreatePlaylistResponse("Playlist created", 200);
 		} catch (Exception e) {

@@ -1,4 +1,4 @@
-function handleDeletePlaylistClick(e) {
+function handleDeletePlaylist {
 var form = document.deletePlaylistForm;
 	
 	var data = {};

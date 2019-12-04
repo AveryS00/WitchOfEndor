@@ -105,14 +105,13 @@ public class VideoSegmentDAO {
 	 * @param vs The VideoSegment to flip the status of.
 	 * @return True if one row was updated. False otherwise.
 	 */
-	public boolean flipMark (VideoSegment vs) {
+	public boolean flipMark (String videoLocation) {
 		try {
-			if (!isInDatabase(new VideoSegment(vs.location, "", "", false, false))) {
+			if (!isInDatabase(new VideoSegment(videoLocation, "", "", false, false))) {
 				return false;
 			}
-			pstmt = conn.prepareStatement("UPDATE Video SET isMarked = ? WHERE videoLocation = ?");
-			pstmt.setBoolean(1, !vs.getIsMarked());
-			pstmt.setString(2, vs.location);
+			pstmt = conn.prepareStatement("UPDATE Video SET isMarked = NOT isMarked WHERE videoLocation = ?");
+			pstmt.setString(1, videoLocation);
 			int count = pstmt.executeUpdate();
 			return (count == 1);
 		} catch (SQLException e) {
