@@ -71,11 +71,7 @@ function createMarkToggleButton(segment) {
 	} else {
 		button.innerHTML = "Mark Segment";
 	}
-	button.onclick = handleToggleClick;
+	button.onclick = function (){handleToggleClick(segment.location)};
 	return button;
-}
-
-function handleToggleClick() {
-	alert("Toggle Mark Clicked");
 }
 
