@@ -41,15 +41,10 @@
 		
 			<h3>Create new Playlist</h3>
 			
-			<form name="createPlaylistForm" method="post" onsubmit="handleCreateNewPlaylist()">
-				Playlist Name: <input type="text" name="playlistName">
-				<input type="submit" id="createPlaylistButton" value="Create Playlist">
+			<form name="createPlaylistForm" method="post">
+				Playlist Name: <input id="textInput" type="text" name="playlistName">
+				<input type="button" id="createPlaylistButton" value="Create Playlist" onclick="handleCreateNewPlaylist()">
 			</form>
-			
-			<!--<form id="createPlayListForm" onsubmit="handleCreateNewPlaylist()" method="post">
-				Playlist Name: <input type="text" name="playlistName"> <br>
-				<input type="submit" value="Create Playlist">
-			</form>-->
 			
 		</div>
 		

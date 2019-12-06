@@ -29,6 +29,6 @@ function togglePlaylists() {
 	}
 }
 
-function handleViewPlaylist() {
-	alert("Attempting to view playlist");
+function handleViewPlaylist(playlistName) {
+	alert("Attempting to view playlist: " + playlistName);
 }

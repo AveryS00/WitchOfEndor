@@ -17,7 +17,8 @@ function handleCreateNewPlaylist() {
 		if (xhr.readyState == XMLHttpRequest.DONE) {
 			if (xhr.status == 200) {
 				console.log("XHR:" + xhr.responseText);
-				//addPlaylistToHTML();
+				var playlistInput = document.getElementById('textInput').value = "";
+				listPlaylist();
 			} else {
 				console.log("actual:" + xhr.responseText);
 				var js = JSON.parse(xhr.responseText);
@@ -27,7 +28,3 @@ function handleCreateNewPlaylist() {
 		}
 	};
 }
-
-//function addPlaylistToHTML() {
-	
-//}

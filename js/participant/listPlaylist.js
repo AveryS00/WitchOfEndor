@@ -30,23 +30,33 @@ function processPlaylistResponse(txt) {
 		list.appendChild(errorElement);
 		return;
 	}
+	list.innerHTML = "";
 	// create list of elements
 	for(playlist in json.list) {
 		playlist = json.list[playlist];
 		var li = document.createElement('li');
 		var title = document.createElement('p');
 		title.innerHTML = playlist['name'];
-		var deleteButton = document.createElement('button');
-		deleteButton.innerHTML = 'Delete Playlist';
-		deleteButton.onclick = function(){
-			handleDeletePlaylist(playlist['name']);
-			};
 		var viewButton = document.createElement('button');
 		viewButton.innerHTML = 'View Playlist';
 		viewButton.onclick = handleViewPlaylist;
 		li.appendChild(title);
-		li.appendChild(viewButton);
-		li.appendChild(deleteButton);
+		li.appendChild(createViewButton(playlist.name));
+		li.appendChild(createDeleteButton(playlist.name));
 		list.appendChild(li);
 	}
+}
+
+function createDeleteButton(playlistName) {
+	var button = document.createElement('button');
+	button.innerHTML = 'Delete Playlist';
+	button.onclick = function(){handleDeletePlaylist(playlistName)};
+	return button;;
+}
+
+function createViewButton(playlistName) {
+	var button = document.createElement('button');
+	button.innerHTML = 'View Playlist';
+	button.onclick = function(){handleViewPlaylist(playlistName)};
+	return button;
 }
