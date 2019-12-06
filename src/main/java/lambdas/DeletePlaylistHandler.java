@@ -18,8 +18,11 @@ public class DeletePlaylistHandler implements RequestHandler<DeletePlaylistReque
 		DeletePlaylistResponse response;
 		try {
 			PlaylistDAO plDao = new PlaylistDAO();
-			plDao.deletePlaylist(req.getPlaylistName());
-			response = new DeletePlaylistResponse("Playlist deleted", 200);
+			if (plDao.deletePlaylist(req.getPlaylistName())) {
+				response = new DeletePlaylistResponse("Playlist deleted", 200);
+			} else {
+				response = new DeletePlaylistResponse("Unable to delete Playlist: " + req.getPlaylistName(), 400);
+			}
 			plDao.close();
 		} catch (Exception e) {
 			response = new DeletePlaylistResponse("Unable to delete Playlist: " + req.getPlaylistName() + "(" + e.getMessage() + ")", 400);

@@ -1,8 +1,8 @@
 package http;
 
 public class CreatePlaylistResponse {
-	public final String response;
-	public final int httpCode;
+	public String response;
+	public int httpCode;
 
 	public CreatePlaylistResponse(String response, int httpCode) {
 		this.response = response;

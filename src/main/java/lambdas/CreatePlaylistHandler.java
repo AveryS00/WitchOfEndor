@@ -20,9 +20,12 @@ public class CreatePlaylistHandler implements RequestHandler<CreatePlaylistReque
 		CreatePlaylistResponse response;
 		try {
 			PlaylistDAO plDao = new PlaylistDAO();
-			plDao.createPlaylist(req.getPlaylistName());
+			if (plDao.createPlaylist(req.getPlaylistName())) {
+				response = new CreatePlaylistResponse("Playlist created", 200);
+			} else {
+				response = new CreatePlaylistResponse("Playlist already exists: " + req.getPlaylistName(), 400);
+			}
 			plDao.close();
-			response = new CreatePlaylistResponse("Playlist created", 200);
 		} catch (Exception e) {
 			response = new CreatePlaylistResponse("Unable to create playlist(" + e.getMessage() + ")", 400);
 		}

@@ -8,6 +8,8 @@
 		<script type='text/javascript' src='../js/participant/listPlaylist.js'></script>
 		<script type='text/javascript' src='../js/participant/search.js'></script>
 		<script type='text/javascript' src='../js/participant/deleteFromPlaylist.js'></script>
+		<script type='text/javascript' src='../js/participant/createPlaylist.js'></script>
+		<script type='text/javascript' src='../js/participant/deletePlaylist.js'></script>
 		
 		<script type='text/javascript' src='../js/participant/participant.js'></script>
 		
@@ -29,7 +31,8 @@
 		<button onclick="togglePlaylists()" id="playlistToggle">Show Playlists</button>
 		<div id="allPlaylists" hidden=true>
 			
-			<ul id="playlistList"></ul>
+			<ul id="playlistList">
+			</ul>
 			
 		</div>
 		
@@ -38,11 +41,15 @@
 		
 			<h3>Create new Playlist</h3>
 			
-			<form id="createPlayListForm" onsubmit="handleCreateNewPlaylist()" method="post">
-				<input name="playlistName" value ="playlistName" />
+			<form name="createPlaylistForm" method="post" onsubmit="handleCreateNewPlaylist()">
+				Playlist Name: <input type="text" name="playlistName">
+				<input type="submit" id="createPlaylistButton" value="Create Playlist">
+			</form>
+			
+			<!--<form id="createPlayListForm" onsubmit="handleCreateNewPlaylist()" method="post">
 				Playlist Name: <input type="text" name="playlistName"> <br>
 				<input type="submit" value="Create Playlist">
-			</form>
+			</form>-->
 			
 		</div>
 		

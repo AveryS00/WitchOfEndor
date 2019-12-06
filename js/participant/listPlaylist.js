@@ -38,7 +38,9 @@ function processPlaylistResponse(txt) {
 		title.innerHTML = playlist['name'];
 		var deleteButton = document.createElement('button');
 		deleteButton.innerHTML = 'Delete Playlist';
-		deleteButton.onclick = handleDeletePlaylist;
+		deleteButton.onclick = function(){
+			handleDeletePlaylist(playlist['name']);
+			};
 		var viewButton = document.createElement('button');
 		viewButton.innerHTML = 'View Playlist';
 		viewButton.onclick = handleViewPlaylist;
@@ -46,7 +48,5 @@ function processPlaylistResponse(txt) {
 		li.appendChild(viewButton);
 		li.appendChild(deleteButton);
 		list.appendChild(li);
-	}	
-	
+	}
 }
-

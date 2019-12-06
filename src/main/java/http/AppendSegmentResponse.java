@@ -1,8 +1,8 @@
 package http;
 
 public class AppendSegmentResponse {
-	public final String response;
-	public final int httpCode;
+	public String response;
+	public int httpCode;
 	
 	public AppendSegmentResponse (String response, int httpCode) {
 		this.response = response;

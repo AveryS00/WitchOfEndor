@@ -7,7 +7,7 @@ function handleCreateNewPlaylist() {
 	var js = JSON.stringify(data);
 	console.log("JS:" + js);
 	var xhr = new XMLHttpRequest();
-	xhr.open("POST", create_playlist_url, true);
+	xhr.open("POST", playlist_url, true);
 	
 	xhr.send(js);
 	
@@ -17,7 +17,7 @@ function handleCreateNewPlaylist() {
 		if (xhr.readyState == XMLHttpRequest.DONE) {
 			if (xhr.status == 200) {
 				console.log("XHR:" + xhr.responseText);
-				listPlaylist();
+				//addPlaylistToHTML();
 			} else {
 				console.log("actual:" + xhr.responseText);
 				var js = JSON.parse(xhr.responseText);
@@ -27,3 +27,7 @@ function handleCreateNewPlaylist() {
 		}
 	};
 }
+
+//function addPlaylistToHTML() {
+	
+//}

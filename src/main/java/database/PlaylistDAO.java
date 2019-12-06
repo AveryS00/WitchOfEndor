@@ -202,7 +202,7 @@ public class PlaylistDAO {
 	 */
 	public List<String> listAllPlaylistNames () {
 		try {
-			pstmt = conn.prepareStatement("SELECT playlistName FROM Library");
+			pstmt = conn.prepareStatement("SELECT playlistName FROM Library ORDER BY playlistName");
 			rset = pstmt.executeQuery();
 			List<String> names = new ArrayList<String>();
 			while (rset.next()) {

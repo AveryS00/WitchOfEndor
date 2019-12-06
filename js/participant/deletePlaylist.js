@@ -1,13 +1,11 @@
-function handleDeletePlaylist {
-var form = document.deletePlaylistForm;
-	
+function handleDeletePlaylist(playlist) {	
 	var data = {};
-	data["playlistName"] = form.playlistName.value;
+	data["playlistName"] = playlist;
 	
 	var js = JSON.stringify(data);
 	console.log("JS:" + js);
 	var xhr = new XMLHttpRequest();
-	xhr.open("POST", append_url, true);
+	xhr.open("POST", delete_playlist_url, true);
 	
 	xhr.send(js);
 	
@@ -17,7 +15,7 @@ var form = document.deletePlaylistForm;
 		if (xhr.readyState == XMLHttpRequest.DONE) {
 			if (xhr.status == 200) {
 				console.log("XHR: " + xhr.responseText);
-				//refreshPlaylistSegmentsList();
+				//removeFromHTML();
 			} else {
 				console.log("actual:" + xhr.responseText);
 				var js = JSON.parse(xhr.responseText);
@@ -27,3 +25,7 @@ var form = document.deletePlaylistForm;
 		}
 	};
 }
+
+//function removeFromHTML() {
+//	var list = document.getElementById
+//}

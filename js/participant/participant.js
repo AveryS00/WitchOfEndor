@@ -29,19 +29,6 @@ function togglePlaylists() {
 	}
 }
 
-
-function handleCreateNewPlaylist() {
-	var form = document.getElementById("createPlayListForm");
-	var name = form.name.value;
-	alert("Trying to create new Playlist with name: " + name);
-	// need to convert to json and call AWS lambda function for creating playlist
-}
-
-
-function handleDeletePlaylist() {
-	alert("Attempting to delete playlist");
-}
-
 function handleViewPlaylist() {
 	alert("Attempting to view playlist");
 }
