@@ -8,4 +8,8 @@ var remote_site_url = base_url + "remote_site";
 
 var search_url = base_url + "search_segments";
 
-var remove_from_playlist_url = base_url + "remove_segment_from_playlist"
+var remove_from_playlist_url = base_url + "remove_segment_from_playlist";
+
+var delete_segment_url = base_url + "delete_video_segment";
+
+var mark_segment_url = base_url + "mark_video_segment";

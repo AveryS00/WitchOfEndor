@@ -50,7 +50,26 @@ function processListVideoSegmentsResponse(txt) {
 		li.appendChild(title);
 		li.appendChild(character);
 		li.appendChild(video);
+		li.appendChild(createDeleteButton(segment));
 		list.appendChild(li);
 	}	
 	
+}
+
+function refreshList() {
+	var xhr = new XMLHttpRequest();
+	xhr.open("GET", segment_url, true);
+	xhr.send();
+
+	console.log("sent");
+
+	// This will process results and update HTML as appropriate. 
+	xhr.onloadend = function () {
+		if (xhr.readyState == XMLHttpRequest.DONE) {
+			console.log ("XHR:" + xhr.responseText);
+			processListVideoSegmentsResponse(xhr.responseText);
+		} else {
+			processListVideoSegmentsResponse("N/A");
+		}
+	};
 }

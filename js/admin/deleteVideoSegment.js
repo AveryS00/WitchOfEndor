@@ -1,4 +1,20 @@
-function handleToggleClick(url) {
+/**
+ * 
+ */
+
+function createDeleteButton(segment)
+{
+	var button = document.createElement('button');
+	button.innerHTML = "Delete this Video Segment";
+	button.onclick = function ()
+	{
+		handleDeleteClick(segment.location)
+	};
+	return button;
+}
+
+function handleDeleteClick(url)
+{
 	console.log(url);
 
 	var data = {};
@@ -7,7 +23,7 @@ function handleToggleClick(url) {
 	var js = JSON.stringify(data);
 	console.log("JS:" + js);
 	var xhr = new XMLHttpRequest();
-	xhr.open("POST", mark_segment_url, true);
+	xhr.open("POST", delete_segment_url, true);
 
 	xhr.send(js);
 
@@ -17,7 +33,7 @@ function handleToggleClick(url) {
 		if (xhr.readyState == XMLHttpRequest.DONE) {
 			if (xhr.status == 200) {
 				console.log("XHR: " + xhr.responseText);
-				processFlipMarkResponse(xhr.responseText);
+				processDeleteVideoResponse(xhr.responseText);
 				//processAppendResponse(xhr.repsonseText);
 				//refreshPlaylistSegmentsList();
 			} else {
@@ -30,28 +46,9 @@ function handleToggleClick(url) {
 	};
 }
 
-function refreshList() {
-	var xhr = new XMLHttpRequest();
-	xhr.open("GET", segment_url, true);
-	xhr.send();
-
-	console.log("sent");
-
-	// This will process results and update HTML as appropriate. 
-	xhr.onloadend = function () {
-		if (xhr.readyState == XMLHttpRequest.DONE) {
-			console.log ("XHR:" + xhr.responseText);
-			processListVideoSegmentsResponse(xhr.responseText);
-		} else {
-			processListVideoSegmentsResponse("N/A");
-		}
-	};
-}
-
-
-function processFlipMarkResponse(response)
+function processDeleteVideoResponse(response)
 {
-	console.log("flipped");
+	console.log("deleted :" + response);
 	var list = document.getElementById('segmentList');
 	list.innerHTML = "";
 	refreshList();

@@ -4,7 +4,10 @@
 		
 		<title>Admin Landing Page</title>
 		<script type='text/javascript' src='../js/api.js'></script>
+		<script type='text/javascript' src='../js/admin/flipMark.js'></script>
+		<script type='text/javascript' src='../js/admin/deleteVideoSegment.js'></script>
 		<script type='text/javascript' src='../js/admin/listSegments.js'></script>
+		<script type='text/javascript' src='../js/admin/listRemoteSites.js'></script>
 		<script type='text/javascript' src='../js/admin/admin.js'></script>
 		<script type='text/javascript' src='../js/admin/registerSite.js'></script>
 		
@@ -32,7 +35,16 @@
 			URL: <input type="text" id="registerURLInput"> <br>
 			</p>
 			<button onclick="handleRegisterURL()">Register Remote URL</button>
+			</p>
+			<button onclick="showRemoteSites()" id="siteToggle">Show Remote Sites</button>
+			<div id="allRemoteSites" hidden=true>
+		
+			<ul id="remoteSiteList">
 			
+			</ul>
+			
+		</div>
+		<hr>
 		</div>
 		
 	</body>
