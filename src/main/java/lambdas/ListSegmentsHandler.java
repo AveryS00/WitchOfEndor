@@ -20,7 +20,7 @@ public class ListSegmentsHandler implements RequestHandler<Object, ListSegmentsR
 		ListSegmentsResponse response;
 		try {
 			Library library = new Library();
-			List<VideoSegment> segments = library.getAllSegments();
+			List<VideoSegment> segments = library.getSegments();
 			response = new ListSegmentsResponse(segments, 200, "");
 		} catch (LibraryException ex) {
 			response = new ListSegmentsResponse(null, 400, ex.getMessage());

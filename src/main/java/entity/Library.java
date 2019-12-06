@@ -21,346 +21,60 @@ public class Library {
 	}
 
 	void populateLibraryFromDB() throws LibraryException {
-		VideoSegmentDAO segmentDB;
-		PlaylistDAO playlistDB;
-		RemoteSiteDAO remoteDB;
 		try {
-			segmentDB = new VideoSegmentDAO();
-			segments = segmentDB.listAllVideoSegments();
-			playlistDB = new PlaylistDAO();
-			playlists = playlistDB.listAllPlaylists();
-			remoteDB = new RemoteSiteDAO();
-			remoteURLs = remoteDB.listAllRemoteSites();
+			VideoSegmentDAO segmentDAO = new VideoSegmentDAO();
+			segments = segmentDAO.listAllVideoSegments();
+			segmentDAO.close();
+			PlaylistDAO playlistDAO = new PlaylistDAO();
+			playlists = playlistDAO.listAllPlaylists();
+			playlistDAO.close();
+			RemoteSiteDAO remoteDAO = new RemoteSiteDAO();
+			remoteURLs = remoteDAO.listAllRemoteSites();
+			remoteDAO.close();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			throw new LibraryException("Failed to Access Database");
 		}
 	}
-
-	/**
-	 * Adds video segment to library
-	 * @param segment Video segment to add
-	 * @return true if segment is not already in library and was able to be added
-	 * @throws LibraryException if segment is already in library
-	 */
-	boolean addSegment(VideoSegment segment) throws LibraryException {
-		for(int i = 0; i < segments.size(); i++)
-		{
-			if(segments.get(i).equals(segment))
-			{
-				throw new LibraryException("Segment already in library.");
-			}
-		}
-		segments.add(segment);
-		return true;
-	}
-
-	/**
-	 * Removes video segment from library
-	 * @param segment Video segment to remove
-	 * @return true if segment was already in library and was able to be removed
-	 * @throws LibraryException if segment is not in library
-	 */
-	boolean removeSegment(VideoSegment segment) throws LibraryException {
-		for(int i = 0; i < segments.size(); i++)
-		{
-			if(segments.get(i).equals(segment))
-			{
-				
-				segments.remove(i);
-				return true;
-			}
-		}
-		throw new LibraryException("Segment not in library.");
-	}
 	
-	public boolean removeSegment(String url) throws LibraryException {
-		for(int i = 0; i < segments.size(); i++) {
-			if(segments.get(i).location.equals(url)) {
-				try {
-					VideoSegmentDAO dao = new VideoSegmentDAO();
-					dao.deleteVideoSegment(url);
-					return true;
-				} catch (Exception e) {
-					throw new LibraryException("Cannot connect to database");
-				}
-			}
-		}
-		throw new LibraryException("Segment not in library");
-	}
-
-	// PARTICIPANT METHODS
-
-	/**
-	 * Creates playlist in library and saves to DB
-	 * @param name unique playlist name 
-	 * @return true if playlist was added and saved
-	 * @throws LibraryException if playlist with same name is already in library
-	 */
-	public boolean createPlaylist(String name) throws LibraryException {
-		for(int i = 0; i < playlists.size(); i++)
-		{
-			if(playlists.get(i).name.equals(name))
-			{
-				throw new LibraryException("Segment already in library.");
-			}
-		}
-		playlists.add(new Playlist(name));
-		return true;
-	}
-
-	/**
-	 * Deletes playlist in library and updates DB
-	 * @param name name of playlist to delete
-	 * @return true if playlist was deleted
-	 * @throws LibraryException if playlist is not in library
-	 */
-	public boolean deletePlaylist(String name) throws LibraryException {
-		for(int i = 0; i < playlists.size(); i++)
-		{
-			if(playlists.get(i).name.equals(name))
-			{
-				playlists.remove(i);
-				return true;
-			}
-		}
-		throw new LibraryException("Segment not in library.");
-	}
-
-	/**
-	 * Gets playlist from library with given name
-	 * @param name playlist to get
-	 * @return Playlist from library
-	 * @throws LibraryException if playlist with name doesnt exist
-	 */
-	public Playlist getPlaylist(String name) throws LibraryException {
-		for(int i = 0; i < playlists.size(); i++)
-		{
-			if(playlists.get(i).name.equals(name))
-			{
-				return playlists.get(i);
-			}
-		}
-		throw new LibraryException("Named playlist doesn not exist");
-	}
-
 	public List<Playlist> getPlaylists() throws LibraryException {
 		if(this.playlists.size() == 0) {
-			throw new LibraryException("No Playlists found in Library");
+			throw new LibraryException("No playlists in library");
 		}
 		return this.playlists;
 	}
-
-
-
-	/**
-	 * Appends video segment to end of playlist and updates DB
-	 * @param p playlist 
-	 * @param v video segment
-	 * @return true if video segment was appended to playlist
-	 */
-	public boolean appendSegmentToPlaylist(Playlist p, VideoSegment v) {
-		return p.appendVideo(v);
-	}
-
-	/**
-	 * Removes video segment from playlist and updates DB
-	 * @param p playlistName name of playlist to delete from
-	 * @param location location of segment to delete
-	 * @return true if segment was removed
-	 * @throws LibraryException if segment is not in playlist
-	 */
-	public boolean removeSegmentFromPlaylist(String playlistName, int location) throws LibraryException {
-		Playlist playlist = null;
+	
+	public Playlist getPlaylist(String name) throws LibraryException {
 		for(Playlist p : playlists) {
-			if(p.name.equals(playlistName)) {
-				playlist = p;
-				break;
+			if(p.name.equals(name)) {
+				return p;
 			}
 		}
-		if(playlist == null) {
-			throw new LibraryException("Playlist not found in library");
-		}
-		
-		if(location < 1 && location > playlist.videos.size()) {
-			throw new LibraryException("Invalid position in playlist");
-		}
-		try {
-			PlaylistDAO dao = new PlaylistDAO();
-			dao.removeVideoFromPlaylist(playlistName, location);
-			return true;
-		} catch (Exception e) {
-			throw new LibraryException("Cannot connect to database");
-		}
-	}
-
-	/**
-	 * 
-	 * @return all local video segments
-	 */
-	public List<VideoSegment> getLocalSegments() throws LibraryException {
-		List<VideoSegment> vs = new ArrayList<VideoSegment>();
-
-		for(int i = 0; i < segments.size(); i++)
-		{
-			if(segments.get(i).isLocal)
-			{
-				vs.add(segments.get(i));
-			}
-		}
-		if(vs.size() == 0) {
-			throw new LibraryException("No local segments found in library");
-		}
-		return vs;
-	}
-
-	/**
-	 * 
-	 * @return all remote video segments
-	 */
-	public List<VideoSegment> getRemoteSegment() throws LibraryException {
-		List<VideoSegment> vs = new ArrayList<VideoSegment>();
-
-		for(int i = 0; i < segments.size(); i++)
-		{
-			if(!(segments.get(i).isLocal))
-			{
-				vs.add(segments.get(i));
-			}
-		}
-		if(vs.size() == 0) {
-			throw new LibraryException("No remote segments found in library");
-		}
-		return vs;
+		throw new LibraryException("Playlist not Found with name " + name);
 	}
 	
-	
-	public List<VideoSegment> getAllSegments() throws LibraryException {
+	public List<VideoSegment> getSegments() throws LibraryException {
 		if(this.segments.size() == 0) {
-			throw new LibraryException("No Semgments in Library");
+			throw new LibraryException("No Video Segments in Library");
 		}
 		return this.segments;
 	}
-
-	/**
-	 * Searches local library for segments that contain phrase and was spoken by character 
-	 * @param character character to search for
-	 * @param phrase phrase to search for
-	 * @return list of all matching segments
-	 * @throws LibraryException if no character or phrase is specified
-	 */
-	public List<VideoSegment> searchForSegments(String character, String phrase) throws LibraryException {
-		List<VideoSegment> segments = new ArrayList<VideoSegment>();
-		for(VideoSegment s : this.segments) {
-			if(character != null && s.character.toLowerCase().equals(character.toLowerCase())) {
-				segments.add(s);
-			} else if (phrase != null && s.name.toLowerCase().contains(phrase.toLowerCase())) {
-				segments.add(s);
+	
+	public VideoSegment getVideoSegment(String location) throws LibraryException {
+		for(VideoSegment vs : segments) {
+			if(vs.location.equals(location)) {
+				return vs;
 			}
 		}
-		return segments;
-	}
-
-	/**
-	 * Adds video segment to library and updates db
-	 * @param segment segment to add
-	 * @return true if segment was added
-	 * @throws LibraryException if segment is already in library
-	 */
-	public boolean addSegmentToLibrary(VideoSegment segment) throws LibraryException{
-		if(segments.contains(segment))
-		{
-			throw new LibraryException("Library already contains this segment");
-		}
-		segments.add(segment);
-		return true;
-	}
-
-	// ADMIN METHODS
-
-	/**
-	 * Marks or Unmarks segment for viewing remotely and updates DB
-	 * @param segment segment to mark
-	 * @return true if segment is marked/unmarked
-	 */
-	public boolean markSegment(VideoSegment segment){
-		segment.changeMark();
-		return true;
+		throw new LibraryException("No video Segment found for location " + location);
 	}
 	
-	/**
-	 * Marks segment for viewing remotely and updates DB
-	 * @param segment segment to mark
-	 * @return true if segment is able to be marked
-	 * @throws LibraryException if segment is already marked
-	 */
-//	public boolean markSegment(VideoSegment segment) throws LibraryException {
-//		return false;
-//	}
-
-	/**
-	 * Unmarks segment for remote viewing and updates DB
-	 * @param segment segment to unmark
-	 * @return true if segment is able to be unmarked
-	 * @throws LibraryException if segment is already unmarked
-	 */
-//	public boolean unmarkSegment(VideoSegment segment) throws LibraryException {
-//		return false;
-//	}
-
-	/**
-	 * Deletes video segment from local library and updates DB
-	 * @param segment segment to delete
-	 * @return true if segment is able to be deleted
-	 * @throws LibraryException is segment does not exist in library
-	 */
-	public boolean deleteSegment(VideoSegment segment) throws LibraryException {
-		if(!(segments.contains(segment)))
-		{
-			throw new LibraryException("Segment does not exist in library");
+	public List<String> getRemoteSites() throws LibraryException {
+		if(this.remoteURLs.size() == 0) {
+			throw new LibraryException("No Remote Sites in Library");
 		}
-		segments.remove(segment);
-		return true;
+		return this.getRemoteSites();
 	}
-
-	/**
-	 * Registers url to retrieve remote segments from
-	 * @param url url to register
-	 * @return true if url is registered
-	 * @throws LibraryException if url is already registered
-	 */
-	public boolean registerRemoteURL(String url) throws LibraryException {
-		if(remoteURLs.contains(url))
-		{
-			throw new LibraryException("URL is already registered in this library");
-		}
-		remoteURLs.add(url);
-		try {
-			RemoteSiteDAO dao = new RemoteSiteDAO();
-			if(!dao.addRemoteSite(url)) {
-				throw new LibraryException("URL is already registered in Database");
-			}
-		} catch (Exception e) {
-			throw new LibraryException("Failed to access Database");
-		}
-		return true;
-	}
-
-	/**
-	 * Unregisters a remote url
-	 * @param url url to unregister
-	 * @return true if url is registers
-	 * @throws LibraryException if url does not exist in librarys
-	 */
-	public boolean unregisterRemoteURL(String url) throws LibraryException {
-		if(!(remoteURLs.contains(url)))
-		{
-			throw new LibraryException("URL is not registered in this library");
-		}
-		remoteURLs.remove(url);
-		return true;
-	}
-
 
 
 }
