@@ -50,6 +50,7 @@ function processListVideoSegmentsResponse(txt) {
 		li.appendChild(title);
 		li.appendChild(character);
 		li.appendChild(video);
+		li.appendChild(createAddToPlaylistButton(segment, list));
 		li.appendChild(createDeleteButton(segment));
 		list.appendChild(li);
 	}	

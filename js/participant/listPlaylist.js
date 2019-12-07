@@ -1,4 +1,3 @@
-
 function listPlaylist() {
 	var xhr = new XMLHttpRequest();
 	
@@ -41,20 +40,20 @@ function processPlaylistResponse(txt) {
 		viewButton.innerHTML = 'View Playlist';
 		viewButton.onclick = handleViewPlaylist;
 		li.appendChild(title);
-		li.appendChild(createViewButton(playlist.name));
-		li.appendChild(createDeleteButton(playlist.name));
+		li.appendChild(createViewPlaylistButton(playlist.name));
+		li.appendChild(createDeletePlaylistButton(playlist.name));
 		list.appendChild(li);
 	}
 }
 
-function createDeleteButton(playlistName) {
+function createDeletePlaylistButton(playlistName) {
 	var button = document.createElement('button');
 	button.innerHTML = 'Delete Playlist';
 	button.onclick = function(){handleDeletePlaylist(playlistName)};
-	return button;;
+	return button;
 }
 
-function createViewButton(playlistName) {
+function createViewPlaylistButton(playlistName) {
 	var button = document.createElement('button');
 	button.innerHTML = 'View Playlist';
 	button.onclick = function(){handleViewPlaylist(playlistName)};
