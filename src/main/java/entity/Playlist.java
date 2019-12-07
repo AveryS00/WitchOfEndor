@@ -3,9 +3,10 @@ package entity;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 
 public class Playlist {
-	ArrayList<VideoSegment> videos;
+	List<VideoSegment> videos;
 	final String name;
 	
 	/**
@@ -17,7 +18,7 @@ public class Playlist {
 		videos = new ArrayList<VideoSegment>();
 	}
 	
-	public ArrayList<VideoSegment> getVideos() {
+	public List<VideoSegment> getVideos() {
 		return this.videos;
 	}
 	

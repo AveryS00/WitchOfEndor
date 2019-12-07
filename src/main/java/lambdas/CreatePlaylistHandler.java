@@ -27,7 +27,7 @@ public class CreatePlaylistHandler implements RequestHandler<CreatePlaylistReque
 			}
 			plDao.close();
 		} catch (Exception e) {
-			response = new CreatePlaylistResponse("Unable to create playlist(" + e.getMessage() + ")", 400);
+			response = new CreatePlaylistResponse("Unable to create playlist(" + e.getMessage() + ")", 500);
 		}
 		return response;
 	}
