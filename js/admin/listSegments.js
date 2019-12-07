@@ -59,6 +59,7 @@ function generateVideoList(json, list) {
 		li.appendChild(character);
 		li.appendChild(video);
 		li.appendChild(createMarkToggleButton(segment))
+		li.appendChild(createDeleteButton(segment))
 		list.appendChild(li);
 	}
 }
