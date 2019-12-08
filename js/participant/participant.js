@@ -28,7 +28,3 @@ function togglePlaylists() {
 		button.innerHTML = "Show Playlists"
 	}
 }
-
-function handleViewPlaylist(playlistName) {
-	alert("Attempting to view playlist: " + playlistName);
-}

@@ -40,7 +40,7 @@ function processPlaylistResponse(txt) {
 		viewButton.innerHTML = 'View Playlist';
 		viewButton.onclick = handleViewPlaylist;
 		li.appendChild(title);
-		li.appendChild(createViewPlaylistButton(playlist.name));
+		li.appendChild(createViewPlaylistButton(playlist.videos, li));
 		li.appendChild(createDeletePlaylistButton(playlist.name));
 		list.appendChild(li);
 	}
@@ -53,9 +53,12 @@ function createDeletePlaylistButton(playlistName) {
 	return button;
 }
 
-function createViewPlaylistButton(playlistName) {
+function createViewPlaylistButton(segmentsList, list) {
 	var button = document.createElement('button');
 	button.innerHTML = 'View Playlist';
-	button.onclick = function(){handleViewPlaylist(playlistName)};
+	button.onclick = function(){
+		handleViewPlaylist(segmentsList, list)
+		toggleViewButton(button)
+		};
 	return button;
 }

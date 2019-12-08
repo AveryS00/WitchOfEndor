@@ -4,7 +4,6 @@ function handleUploadVideoSegment() {
 	var data = {};
 	data["characterName"] = form.characterName.value;
 	data["text"] = form.text.value;
-	data["file"] = form.file.value;
 	
 	var segments = form.base64Encoding.value.split(',');
 	data["base64EncodedValue"] = segments[1];
