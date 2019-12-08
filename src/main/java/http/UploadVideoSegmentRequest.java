@@ -23,7 +23,11 @@ public class UploadVideoSegmentRequest {
 		this.text = text;
 	}
 	
+<<<<<<< HEAD
 	public void setBase64encoded (String base64encoded) {
+=======
+	public void setBased64encoded (String base64encoded) {
+>>>>>>> branch 'master' of https://github.com/AveryS00/WitchOfEndor.git
 		this.base64encoded = base64encoded;
 	}
 	
