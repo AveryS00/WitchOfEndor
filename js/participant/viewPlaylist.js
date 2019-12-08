@@ -15,5 +15,9 @@ function handleViewPlaylist(segmentsList, list) {
 
 
 function toggleViewButton(button) {
-	button.disabled = true;
+	if (button.innerHTML == 'View Playlist') {
+		button.innerHTML = 'Hide Playlist';
+	} else {
+		button.innerHTML = 'View Playlist';
+	}
 }
