@@ -1,4 +1,4 @@
-function listPlaylist() {
+ function listPlaylist() {
 	var xhr = new XMLHttpRequest();
 	
 	xhr.open("GET", playlist_url, true);
