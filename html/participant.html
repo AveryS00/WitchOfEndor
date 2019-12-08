@@ -12,6 +12,7 @@
 		<script type='text/javascript' src='../js/participant/createPlaylist.js'></script>
 		<script type='text/javascript' src='../js/participant/deletePlaylist.js'></script>
 		<script type='text/javascript' src='../js/participant/appendSegmentToPlaylist.js'></script>
+		<script type='text/javascript' src='../js/participant/uploadVideoSegment.js'></script>
 		
 		<script type='text/javascript' src='../js/participant/participant.js'></script>
 		
@@ -75,6 +76,25 @@
 			<ul id="searchList"></ul>
 			
 		</div>
+		
+		<hr>
+		
+		<div id="uploadSegment">
+			<h3>Upload Segment</h3>
+			<form id="uploadSegmentForm" name="uploadSegmentForm" method="post">
+				Character: <input id="characterName" name="characterName" value="Name">
+				Text: <input id="text" name="text" value="Sentence">
+				OGG File: <input type="file" accept=".ogg" id="videoSegment" name="videoSegment">
+				<input id="base64Encoding" name="base64EncodedValue" hidden=true value="">
+				<input type="button" id="uploadButton" name="uploadButton" value="Upload Segment" disabled onClick="handleUploadVideoSegment()">
+			
+			</form>
+			
+			<script>
+				document.getElementById('videoSegment').addEventListener('change', handleFileSelect, false);
+			</script>
+		</div>
+		
 		
 		
 	</body>
