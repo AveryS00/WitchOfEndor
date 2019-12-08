@@ -1,0 +1,49 @@
+swagger: '2.0'
+info:
+  description: This is a simple API
+  version: 1.0.0
+  title: Get Remote Segments
+
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+
+# tags are used for organizing operations
+tags:
+- name: participants
+  description: Participant methods
+
+paths:
+  /RemoteSite:
+    get:
+      tags:
+      - participant
+      summary: getsAllRemoteSites
+      produces:
+      - application/json
+      responses:
+        200:
+          description: remote sites returned
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/RemoteSiteResponse'
+definitions:
+  RemoteSiteResponse:
+    type: object
+    required:
+    - url
+    - character
+    - text
+    properties:
+      url:
+        type: string
+      character:
+        type: string
+      text:
+        type: string
+# Added by API Auto Mocking Plugin
+host: virtserver.swaggerhub.com
+basePath: /cs3733-woe/Get-Remote_Segments/1.0.0
+schemes:
+ - https

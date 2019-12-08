@@ -1,0 +1,436 @@
+---
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: "Witch of Endor Group Project API"
+host: "hnv1c79bz3.execute-api.us-east-2.amazonaws.com"
+basePath: "/beta"
+schemes:
+- "https"
+paths:
+  /append_segment_to_playlist:
+    post:
+      operationId: "appendSegment"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "AppendRequest"
+        required: true
+        schema:
+          $ref: "#/definitions/AppendRequest"
+      responses:
+        200:
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+        400:
+          description: "400 response"
+        409:
+          description: "409 response"
+    options:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses: {}
+  /delete_playlist:
+    post:
+      operationId: "deletePlaylist"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "DeleteRequest"
+        required: true
+        schema:
+          $ref: "#/definitions/DeleteRequest"
+      responses:
+        200:
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+    options:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses: {}
+  /delete_video_segment:
+    post:
+      operationId: "deleteSegment"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "DeleteRequest"
+        required: true
+        schema:
+          $ref: "#/definitions/DeleteRequest"
+      responses:
+        200:
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+        400:
+          description: "400 response"
+        409:
+          description: "409 response"
+    options:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses: {}
+  /mark_video_segment:
+    post:
+      operationId: "markSegment"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "MarkRequest"
+        required: true
+        schema:
+          $ref: "#/definitions/MarkRequest"
+      responses:
+        200:
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+        400:
+          description: "400 response"
+        409:
+          description: "409 response"
+    options:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses: {}
+  /playlist:
+    get:
+      operationId: "listPlaylists"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+    post:
+      operationId: "createPlaylist"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "CreatePlaylistRequest"
+        required: true
+        schema:
+          $ref: "#/definitions/CreatePlaylistRequest"
+      responses:
+        200:
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+        409:
+          description: "409 response"
+    options:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses: {}
+  /remote_site:
+    get:
+      operationId: "listRemoteSites"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+    post:
+      operationId: "registerRemoteSite"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "RegisterRequest"
+        required: true
+        schema:
+          $ref: "#/definitions/RegisterRequest"
+      responses:
+        200:
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+        400:
+          description: "400 response"
+        409:
+          description: "409 response"
+    options:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses: {}
+  /remove_segment_from_playlist:
+    post:
+      operationId: "removeSegmentFromPlaylist"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "RemoveFromPlaylistRequest"
+        required: true
+        schema:
+          $ref: "#/definitions/RemoveFromPlaylistRequest"
+      responses:
+        200:
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+        400:
+          description: "400 response"
+    options:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses: {}
+  /search_segments:
+    post:
+      operationId: "searchSegment"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "SearchRequest"
+        required: true
+        schema:
+          $ref: "#/definitions/SearchRequest"
+      responses:
+        200:
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+    options:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses: {}
+  /unmark_video_segment:
+    post:
+      operationId: "unmarkSegment"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "MarkRequest"
+        required: true
+        schema:
+          $ref: "#/definitions/MarkRequest"
+      responses:
+        200:
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+        400:
+          description: "400 response"
+        409:
+          description: "409 response"
+    options:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses: {}
+  /unregister_site:
+    post:
+      operationId: "unregisterSite"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "RegisterRequest"
+        required: true
+        schema:
+          $ref: "#/definitions/RegisterRequest"
+      responses:
+        200:
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+        400:
+          description: "400 response"
+        409:
+          description: "409 response"
+    options:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses: {}
+  /uploadSegment:
+    x-amazon-apigateway-any-method:
+      responses:
+        200:
+          description: "200 response"
+  /video_segment:
+    get:
+      operationId: "listSegments"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+    post:
+      operationId: "uploadSegment"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "UploadRequest"
+        required: true
+        schema:
+          $ref: "#/definitions/UploadRequest"
+      responses:
+        200:
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+        400:
+          description: "400 response"
+        409:
+          description: "409 response"
+    options:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses: {}
+definitions:
+  RegisterRequest:
+    type: "object"
+    required:
+    - "url"
+    properties:
+      url:
+        type: "string"
+  SearchRequest:
+    type: "object"
+    required:
+    - "name"
+    properties:
+      name:
+        type: "string"
+      character:
+        type: "string"
+      episode:
+        type: "string"
+      sentence:
+        type: "string"
+  CreatePlaylistRequest:
+    type: "object"
+    required:
+    - "name"
+    properties:
+      name:
+        type: "string"
+  UploadRequest:
+    type: "object"
+    required:
+    - "character"
+    - "episode"
+    - "name"
+    - "phrase"
+    properties:
+      name:
+        type: "string"
+      character:
+        type: "string"
+      episode:
+        type: "string"
+      phrase:
+        type: "string"
+  AppendRequest:
+    type: "object"
+    required:
+    - "playlist"
+    - "url"
+    - "video_segment"
+    properties:
+      url:
+        type: "string"
+      playlist:
+        type: "string"
+      video_segment:
+        type: "string"
+  DeleteRequest:
+    type: "object"
+    required:
+    - "name"
+    properties:
+      name:
+        type: "string"
+  RemoveFromPlaylistRequest:
+    type: "object"
+    required:
+    - "playlistName"
+    - "segmentName"
+    properties:
+      playlistName:
+        type: "string"
+      segmentName:
+        type: "string"
+  MarkRequest:
+    type: "object"
+    required:
+    - "name"
+    - "visibility"
+    properties:
+      name:
+        type: "string"
+      visibility:
+        type: "boolean"
