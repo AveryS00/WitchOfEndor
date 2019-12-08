@@ -32,7 +32,7 @@ public class UploadVideoSegmentHandler implements RequestHandler<UploadVideoSegm
 
 		VideoSegmentDAO dao;
 		
-		byte[] encoded = java.util.Base64.getDecoder().decode(req.based64encoded);
+		byte[] encoded = java.util.Base64.getDecoder().decode(req.base64encoded);
 		try {
 			if (addToBucket(encoded, text)) {
 				dao = new VideoSegmentDAO();
