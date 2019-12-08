@@ -3,12 +3,12 @@ package http;
 public class UploadVideoSegmentRequest {
 	public String character;
 	public String text;
-	public String based64encoded;
+	public String base64encoded;
 	
-	public UploadVideoSegmentRequest(String character, String text, String based64encoded) {
+	public UploadVideoSegmentRequest(String character, String text, String base64encoded) {
 		this.character = character;
 		this.text = text;
-		this.based64encoded = based64encoded;
+		this.base64encoded = base64encoded;
 	}
 	
 	public UploadVideoSegmentRequest() {
@@ -23,8 +23,8 @@ public class UploadVideoSegmentRequest {
 		this.text = text;
 	}
 	
-	public void setBased64encoded (String based64encoded) {
-		this.based64encoded = based64encoded;
+	public void setBase64encoded (String base64encoded) {
+		this.base64encoded = base64encoded;
 	}
 	
 	public String getCharacter(){
@@ -35,7 +35,7 @@ public class UploadVideoSegmentRequest {
 		return text;
 	}
 	
-	public String getBased64encoded() {
-		return based64encoded;
+	public String getBase64encoded() {
+		return base64encoded;
 	}
 }

@@ -32,11 +32,11 @@ public class UploadVideoSegmentHandler implements RequestHandler<UploadVideoSegm
 
 		VideoSegmentDAO dao;
 		
-		byte[] encoded = java.util.Base64.getDecoder().decode(req.based64encoded);
+		byte[] encoded = java.util.Base64.getDecoder().decode(req.base64encoded);
 		try {
 			if (addToBucket(encoded, text)) {
 				dao = new VideoSegmentDAO();
-				VideoSegment vs = new VideoSegment(URL + text, req.character, req.text, true);
+				VideoSegment vs = new VideoSegment(URL + text + ".ogg", req.character, req.text, true);
 				if (dao.addVideoSegment(vs)) {
 					return new UploadVideoSegmentResponse(200, "Video segment uploaded: " + req.text);
 				}
@@ -54,15 +54,14 @@ public class UploadVideoSegmentHandler implements RequestHandler<UploadVideoSegm
 		
 		if (s3 == null) {
 			logger.log("attach to S3 request");
-			s3 = AmazonS3ClientBuilder.standard().withRegion(Regions.US_EAST_1).build();
+			s3 = AmazonS3ClientBuilder.standard().withRegion(Regions.US_EAST_2).build();
 			logger.log("attach to S3 succeed");
 		}
 		
 		ByteArrayInputStream bais = new ByteArrayInputStream(contents);
 		ObjectMetadata omd = new ObjectMetadata();
 		omd.setContentLength(contents.length);
-		
-		PutObjectResult res = s3.putObject(new PutObjectRequest("cs3733-witch-of-endor", "VideoSegments/" + name, bais, omd).withCannedAcl(CannedAccessControlList.PublicRead));
+		s3.putObject(new PutObjectRequest("cs3733-witch-of-endor", "VideoSegments/" + name + ".ogg", bais, omd).withCannedAcl(CannedAccessControlList.PublicRead));
 		return true;
 	}
 }
