@@ -2,11 +2,11 @@ function handleUploadVideoSegment() {
 	var form = document.uploadSegmentForm;
 	
 	var data = {};
-	data["characterName"] = form.characterName.value;
+	data["character"] = form.characterName.value;
 	data["text"] = form.text.value;
 	
 	var segments = form.base64Encoding.value.split(',');
-	data["base64EncodedValue"] = segments[1];
+	data["base64Encoded"] = segments[1];
 	
 	var js = JSON.stringify(data);
 	console.log("JS:" + js);
