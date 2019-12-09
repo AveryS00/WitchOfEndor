@@ -14,6 +14,7 @@
 		<script type='text/javascript' src='../js/participant/appendSegmentToPlaylist.js'></script>
 		<script type='text/javascript' src='../js/participant/uploadVideoSegment.js'></script>
 		<script type='text/javascript' src='../js/participant/viewPlaylist.js'></script>
+		<script type='text/javascript' src='../js/participant/listRemoteSegments.js'></script>
 		
 		<script type='text/javascript' src='../js/participant/participant.js'></script>
 		
@@ -27,6 +28,14 @@
 		<div id="allSegments" hidden=true>
 		
 			<ul id="segmentList"></ul>
+			
+		</div>
+		
+		<h3>Remote Video Segments</h3>
+		<button onclick="toggleRemoteSegments()" id="remoteSegmentToggle">Show Segments</button>
+		<div id="allRemoteSegments" hidden=true>
+		
+			<ul id="remoteSegmentList"></ul>
 			
 		</div>
 		
