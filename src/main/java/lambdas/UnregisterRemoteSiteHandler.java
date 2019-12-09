@@ -4,8 +4,6 @@ import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 
 import database.RemoteSiteDAO;
-import entity.Library;
-import exceptions.LibraryException;
 import http.UnregisterRemoteSiteRequest;
 import http.UnregisterRemoteSiteResponse;
 

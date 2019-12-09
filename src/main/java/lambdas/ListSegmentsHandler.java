@@ -2,13 +2,13 @@ package lambdas;
 
 import http.ListSegmentsResponse;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.amazonaws.services.lambda.runtime.*;
 
-import entity.Library;
+import database.VideoSegmentDAO;
 import entity.VideoSegment;
-import exceptions.LibraryException;
 
 /*
  * Needs to be done for G2.1
@@ -19,10 +19,16 @@ public class ListSegmentsHandler implements RequestHandler<Object, ListSegmentsR
 	public ListSegmentsResponse handleRequest(Object arg0, Context arg1) {
 		ListSegmentsResponse response;
 		try {
-			Library library = new Library();
-			List<VideoSegment> segments = library.getSegments();
-			response = new ListSegmentsResponse(segments, 200, "");
-		} catch (LibraryException ex) {
+			VideoSegmentDAO dao = new VideoSegmentDAO();
+			List<VideoSegment> segments = dao.listAllVideoSegments();
+			List<VideoSegment> localSegments = new ArrayList<VideoSegment>();
+			for(VideoSegment s : segments) {
+				if(s.getIsLocal()) {
+					localSegments.add(s);
+				}
+			}
+			response = new ListSegmentsResponse(localSegments, 200, "");
+		} catch (Exception ex) {
 			response = new ListSegmentsResponse(null, 400, ex.getMessage());
 		}
 		return response;

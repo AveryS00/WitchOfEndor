@@ -7,9 +7,7 @@ import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 
 import database.VideoSegmentDAO;
-import entity.Library;
 import entity.VideoSegment;
-import exceptions.LibraryException;
 import http.SearchSegmentRequest;
 import http.SearchSegmentResponse;
 
@@ -48,8 +46,6 @@ public class SearchVideoSegmentsHandler
 				return new SearchSegmentResponse(409, "No Video Segments found");
 			}
 			return new SearchSegmentResponse(matchingSegments);
-		} catch (LibraryException e) {
-			return new SearchSegmentResponse(400, e.getMessage());
 		} catch (Exception e) {
 			return new SearchSegmentResponse(500, e.getMessage());
 		}

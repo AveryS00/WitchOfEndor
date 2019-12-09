@@ -2,7 +2,6 @@ package lambdas;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.lambda.runtime.Context;

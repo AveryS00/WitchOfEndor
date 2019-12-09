@@ -3,10 +3,7 @@ package lambdas;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 
-import database.PlaylistDAO;
 import database.RemoteSiteDAO;
-import entity.Library;
-import exceptions.LibraryException;
 import http.RegisterRemoteSiteRequest;
 import http.RegisterRemoteSiteResponse;
 
@@ -19,7 +16,6 @@ public class RegisterRemoteSiteHandler implements
 	@Override
 	public RegisterRemoteSiteResponse handleRequest(RegisterRemoteSiteRequest request, Context context) {
 		try {
-			Library lib = new Library();
 			RemoteSiteDAO dao = new RemoteSiteDAO();
 			String url = request.url;
 			if(dao.listAllRemoteSites().contains(url)) {

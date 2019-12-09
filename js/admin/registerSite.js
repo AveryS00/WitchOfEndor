@@ -1,6 +1,7 @@
 
 function handleRegisterURL() {
 	var url = document.getElementById("registerURLInput").value;
+	alert("Registering Site: " + url)
 	
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST", remote_site_url, true);
@@ -29,6 +30,7 @@ function handleRegisterURLResponse(txt) {
 	if(json.statusCode != 200) {
 		alert("Error " + json.statusCode + ": " + json.error)
 	}
+	location.reload();
 }
 
 function createRegisterUrlRequest(url) {

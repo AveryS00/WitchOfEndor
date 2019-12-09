@@ -6,7 +6,7 @@ import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 
-import entity.Library;
+import database.PlaylistDAO;
 import entity.Playlist;
 import http.ListPlaylistResponse;
 
@@ -25,9 +25,8 @@ public class ListPlaylistsHandler implements RequestHandler<Object,ListPlaylistR
 		ListPlaylistResponse response;
 		try {
 			logger.log("Getting Playlists from RDS");
-			Library library = new Library();
-			List<Playlist> list = library.getPlaylists();
-			
+			PlaylistDAO dao = new PlaylistDAO();
+			List<Playlist> list = dao.listAllPlaylists();
 			response = new ListPlaylistResponse(list, 200);
 		} catch (Exception e) {
 			response = new ListPlaylistResponse(403, e.getMessage());
