@@ -36,6 +36,7 @@ function processDeleteFromPlaylistResponse(txt) {
 	if(json.statusCode != 200) {
 		alert("Error " + json.statusCode + ": " + json.error)
 	}
+	location.reload();
 }
 
 
