@@ -14,8 +14,6 @@ function listVideoSegments() {
 		console.log(xhr.request);
 		if (xhr.readyState == XMLHttpRequest.DONE) {
 			processListVideoSegmentsResponse(xhr.responseText);
-		} else {
-			processListVideoSegmentsResponse("N/A");
 		}
 	};
 }

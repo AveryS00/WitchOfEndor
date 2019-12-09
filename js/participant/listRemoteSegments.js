@@ -19,8 +19,6 @@ function getRemoteSiteSegments() {
 		console.log(xhr.request);
 		if (xhr.readyState == XMLHttpRequest.DONE) {
 			proccessGetRemoteSitesResponse(xhr.responseText);
-		} else {
-			proccessGetRemoteSitesResponse("N/A");
 		}
 	};
 }
@@ -49,8 +47,6 @@ function listRemoteSiteSegments(url) {
 		console.log(xhr.request);
 		if (xhr.readyState == XMLHttpRequest.DONE) {
 			processListRemoteVideoSegmentsResponse(xhr.responseText);
-		} else {
-			processListRemoteVideoSegmentsResponse("N/A");
 		}
 	};
 }
