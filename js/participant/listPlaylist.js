@@ -42,6 +42,7 @@ function processPlaylistResponse(txt) {
 		li.appendChild(title);
 		li.appendChild(createViewPlaylistButton(playlist.videos, li));
 		li.appendChild(createDeletePlaylistButton(playlist.name));
+		li.setAttribute("shown", "false");
 		list.appendChild(li);
 	}
 }
@@ -55,7 +56,7 @@ function createDeletePlaylistButton(playlistName) {
 
 function createViewPlaylistButton(segmentsList, list) {
 	var button = document.createElement('button');
-	button.innerHTML = 'View Playlist';
+	button.innerHTML = 'View Playlist'; 
 	button.onclick = function(){
 		handleViewPlaylist(segmentsList, list)
 		toggleViewButton(button)
