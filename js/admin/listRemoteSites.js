@@ -58,9 +58,25 @@ function createUnregisterButton(url) {
 	return button;
 }
 
-function handleUnregisterUrl()
-{
-	alert("Unregister URL Called");
+function handleUnregisterUrl(url) {
+	console.log("Deleting URL: " + url)
+	var xhr = new XMLHttpRequest();
+	
+	xhr.open("POST", unregister_site_url, true);
+	
+	var data = {}
+	data['url'] = url
+	var json = JSON.stringify(data);
+	
+	// send the collected data as JSON
+	xhr.send(json);
+	
+	// This will process results and update HTML as appropriate. 
+	xhr.onloadend = function () {
+		console.log(xhr);
+		console.log(xhr.request);
+		location.reload();
+	};
 }
 
 

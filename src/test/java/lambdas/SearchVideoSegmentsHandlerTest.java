@@ -56,18 +56,27 @@ public class SearchVideoSegmentsHandlerTest extends LambdaTest{
 		SearchSegmentResponse response = handler.handleRequest(request, context);
 		assertEquals(numSegments, response.segments.size());
 		assertEquals(200, response.statusCode);
+		
+		request = new SearchSegmentRequest("ChaRacTer", "");
+		response = handler.handleRequest(request, context);
+		assertEquals(numSegments, response.segments.size());
+		assertEquals(200, response.statusCode);
+		
 		request = new SearchSegmentRequest("3", "");
 		response = handler.handleRequest(request, context);
 		assertEquals(1, response.segments.size());
 		assertEquals(200, response.statusCode);
+		
 		request = new SearchSegmentRequest("", "3");
 		response = handler.handleRequest(request, context);
 		assertEquals(1, response.segments.size());
 		assertEquals(200, response.statusCode);
+		
 		request = new SearchSegmentRequest("" + (numSegments+1), "");
 		response = handler.handleRequest(request, context);
 		assertEquals(null, response.segments);
 		assertNotEquals(200, response.statusCode);
+		
 		request = new SearchSegmentRequest("", "");
 		response = handler.handleRequest(request, context);
 		assertEquals(409, response.statusCode);

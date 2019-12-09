@@ -35,13 +35,16 @@ public class SearchVideoSegmentsHandler
 			List<VideoSegment> segments = dao.listAllVideoSegments();
 			List<VideoSegment> matchingSegments = new ArrayList<VideoSegment>();
 			for(VideoSegment s : segments) {
-				if(request.character != null && s.character.contains(request.character)) {
+				if(request.character != null &&
+						s.character.toLowerCase().contains(request.character.toLowerCase())) {
 					matchingSegments.add(s);
-				} else if(request.phrase != null && s.name.contains(request.phrase)) {
+				} else if(request.phrase != null && 
+						s.name.toLowerCase().contains(request.phrase.toLowerCase())) {
 					matchingSegments.add(s);
 				}
 			}
 			if(matchingSegments.size() == 0) {
+				dao.close();
 				return new SearchSegmentResponse(409, "No Video Segments found");
 			}
 			return new SearchSegmentResponse(matchingSegments);
