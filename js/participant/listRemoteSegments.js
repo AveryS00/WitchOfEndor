@@ -32,11 +32,18 @@ function proccessGetRemoteSitesResponse(txt) {
 	}
 }
 
-function listRemoteSiteSegments(url) {
-	console.log("Getting segments from site: " + url)
+function listRemoteSiteSegments(raw_url) {
+	var parts = raw_url.split("?apikey=");
+	
+	var url = parts[0]
+	var key = parts[1]
+	console.log("Accessing url: " + url + " with key: " + key)
+	
 	var xhr = new XMLHttpRequest();
 	
 	xhr.open("GET", url, true);
+	
+	xhr.setRequestHeader('x-api-key', key)
 	
 	// send the collected data as JSON
 	xhr.send("");
@@ -82,7 +89,6 @@ function processListRemoteVideoSegmentsResponse(txt) {
 		li.appendChild(character);
 		li.appendChild(video);
 		li.appendChild(createAddToPlaylistButton(segment, list));
-		li.appendChild(createDeleteButton(segment));
 		list.appendChild(li);
 	}	
 	
