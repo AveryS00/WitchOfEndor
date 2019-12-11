@@ -88,7 +88,7 @@ function processListRemoteVideoSegmentsResponse(txt) {
 		li.appendChild(title);
 		li.appendChild(character);
 		li.appendChild(video);
-		li.appendChild(createAddToPlaylistButton(segment, list));
+		li.appendChild(createAddToPlaylistButton(segment, li));
 		list.appendChild(li);
 	}	
 	
