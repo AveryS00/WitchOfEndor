@@ -78,6 +78,7 @@ public class VideoSegmentDAO {
 	 * @param vs The VideoSegment that will be written into the 
 	 * @return True if could update the info. False otherwise.
 	 */
+	/*
 	public boolean updateVideoSegment (VideoSegment vs) {
 		try {
 			if (!isInDatabase(vs)) {
@@ -99,6 +100,7 @@ public class VideoSegmentDAO {
 			DatabaseConnection.closeStmt(pstmt, rset);
 		}
 	}
+	*/
 	
 	/**
 	 * Flips the mark status in the database.
