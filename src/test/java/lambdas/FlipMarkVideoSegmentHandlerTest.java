@@ -2,8 +2,6 @@ package lambdas;
 
 import static org.junit.Assert.*;
 
-import java.sql.SQLException;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,8 +10,6 @@ import com.amazonaws.services.lambda.runtime.Context;
 
 import database.VideoSegmentDAO;
 import entity.VideoSegment;
-import http.DeleteVideoSegmentRequest;
-import http.DeleteVideoSegmentResponse;
 import http.MarkVideoSegmentRequest;
 import http.MarkVideoSegmentResponse;
 

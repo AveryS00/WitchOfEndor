@@ -1,9 +1,5 @@
 package http;
 
-import java.util.ArrayList;
-import java.util.List;
-import entity.Playlist;
-
 public class MarkVideoSegmentRequest 
 {
 	public String location;

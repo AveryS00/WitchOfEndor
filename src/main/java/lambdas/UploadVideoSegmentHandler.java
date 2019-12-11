@@ -12,8 +12,6 @@ import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.amazonaws.services.s3.model.PutObjectResult;
-
 import database.VideoSegmentDAO;
 import entity.VideoSegment;
 
@@ -65,7 +63,7 @@ public class UploadVideoSegmentHandler implements RequestHandler<UploadVideoSegm
 		ByteArrayInputStream bais = new ByteArrayInputStream(contents);
 		ObjectMetadata omd = new ObjectMetadata();
 		omd.setContentLength(contents.length);
-		PutObjectResult res = s3.putObject(new PutObjectRequest("cs3733-witch-of-endor", "VideoSegments/" + name + ".ogg", bais, omd).withCannedAcl(CannedAccessControlList.PublicRead));
+		s3.putObject(new PutObjectRequest("cs3733-witch-of-endor", "VideoSegments/" + name + ".ogg", bais, omd).withCannedAcl(CannedAccessControlList.PublicRead));
 		
 		logger.log(" added to bucket ");
 		return true;

@@ -1,8 +1,5 @@
 package http;
 
-import java.util.List;
-import entity.VideoSegment;
-
 public class MarkVideoSegmentResponse 
 {
 	public final String location;

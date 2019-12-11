@@ -39,13 +39,6 @@ public class VideoSegment {
 	}
 	
 	/**
-	 * Changes the mark status of the video segment. If video segment is marked will unmark and vice versa.
-	 */
-	public void changeMark () {
-		isMarked = !isMarked;
-	}
-	
-	/**
 	 * Gets the current marked status of the video segment.
 	 * @return True if the video is marked to be local only. False otherwise.
 	 */
@@ -76,13 +69,5 @@ public class VideoSegment {
 			return this.location.equals(vs.location);
 		}
 		return false;
-	}
-	
-	/**
-	 * Converts the object into a readable String format.
-	 */
-	@Override
-	public String toString () {
-		return location + " " + character + " " + name;
 	}
 }

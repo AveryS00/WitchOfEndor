@@ -5,7 +5,6 @@ import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 
 import database.VideoSegmentDAO;
-import entity.VideoSegment;
 import http.MarkVideoSegmentRequest;
 import http.MarkVideoSegmentResponse;
 

@@ -8,13 +8,10 @@ import org.junit.Test;
 
 import com.amazonaws.services.lambda.runtime.Context;
 
-import database.PlaylistDAO;
 import database.VideoSegmentDAO;
-import entity.Playlist;
 import entity.VideoSegment;
 import http.DeleteVideoSegmentRequest;
 import http.DeleteVideoSegmentResponse;
-import http.ListRemoteSitesResponse;
 
 public class DeleteVideoSegmentHandlerTest extends LambdaTest {
 
@@ -53,6 +50,7 @@ public class DeleteVideoSegmentHandlerTest extends LambdaTest {
 		}
 		assertTrue(isTrue);
 		DeleteVideoSegmentResponse response = handler.handleRequest(req, context);
+		System.out.println(response.toString());
 		assertEquals(response.statusCode,200);
 		isTrue = false;
 		for(VideoSegment vs : dao.listAllVideoSegments())
@@ -63,6 +61,14 @@ public class DeleteVideoSegmentHandlerTest extends LambdaTest {
 			}
 		}
 		assertFalse(isTrue);
+	}
+	
+	@Test
+	public void throwError () {
+		DeleteVideoSegmentRequest req = new DeleteVideoSegmentRequest("SomeLocationThatDoesntExist");
+		DeleteVideoSegmentResponse resp = new DeleteVideoSegmentHandler().handleRequest(req, createContext("DeleteVideoSegment"));
+		resp.toString();
+		assertEquals(resp.statusCode, 422);
 	}
 
 }

@@ -5,14 +5,13 @@ public class UploadVideoSegmentRequest {
 	public String text;
 	public String base64encoded;
 	
-	public UploadVideoSegmentRequest(String character, String text, String base64encoded) {
+	public UploadVideoSegmentRequest (String character, String text, String base64encoded) {
 		this.character = character;
 		this.text = text;
 		this.base64encoded = base64encoded;
 	}
 	
 	public UploadVideoSegmentRequest() {
-		
 	} 
 	
 	public void setCharacter (String character){
@@ -24,7 +23,6 @@ public class UploadVideoSegmentRequest {
 	}
 	
 	public void setBase64encoded (String base64encoded) {
-
 		this.base64encoded = base64encoded;
 	}
 	

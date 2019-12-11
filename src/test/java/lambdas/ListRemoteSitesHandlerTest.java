@@ -8,10 +8,7 @@ import org.junit.Test;
 
 import com.amazonaws.services.lambda.runtime.Context;
 
-import database.PlaylistDAO;
 import database.RemoteSiteDAO;
-import entity.Playlist;
-import http.ListPlaylistResponse;
 import http.ListRemoteSitesResponse;
 
 public class ListRemoteSitesHandlerTest extends LambdaTest {
