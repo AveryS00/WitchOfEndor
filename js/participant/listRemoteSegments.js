@@ -62,13 +62,6 @@ function processListRemoteVideoSegmentsResponse(txt) {
 	console.log("result: " + txt)
 	var json = JSON.parse(txt)
 	var list = document.getElementById('remoteSegmentList')
-	// if error show error
-	if(json.statusCode != 200) {
-		var errorElement = document.createElement('p');
-		errorElement.innerHTML = "Error " + json.statusCode +  ": " + json.error;
-		list.appendChild(errorElement);
-		return;
-	}
 	// create list of elements
 	for(segment in json.segments) {
 		segment = json.segments[segment];
@@ -88,10 +81,20 @@ function processListRemoteVideoSegmentsResponse(txt) {
 		li.appendChild(title);
 		li.appendChild(character);
 		li.appendChild(video);
-		li.appendChild(createAddToPlaylistButton(segment, li));
+		li.appendChild(createAddRemoteToPlaylistButton(segment.url, li));
 		list.appendChild(li);
 	}	
 	
+}
+
+function createAddRemoteToPlaylistButton(url, list) {
+	var button = document.createElement('button');
+	button.innerHTML = 'Add to Playlist';
+	button.onclick = function(){
+		button.disabled = true;
+		handleAddToPlaylistButtons(url, list, button)
+		};
+	return button;
 }
 
 function refreshList() {
