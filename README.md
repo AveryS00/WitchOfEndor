@@ -1,7 +1,7 @@
 # witch-of-endor
 
-### Group Project for CS3733 - B Term 2019**
-### Contributers: Avery Smith, Ben Babalola, Mark Forte, Tej Sheth**
+### Group Project for CS3733 - B Term 2019
+### Contributers: Avery Smith, Ben Babalola, Mark Forte, Tej Sheth
 
 ### Participant
 https://cs3733-witch-of-endor.s3.us-east-2.amazonaws.com/html/participant.html
