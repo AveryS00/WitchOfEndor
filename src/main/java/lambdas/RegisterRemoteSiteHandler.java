@@ -22,6 +22,7 @@ public class RegisterRemoteSiteHandler implements
 				return new RegisterRemoteSiteResponse(409, "Remote Site Already Registered");
 			}
 			dao.addRemoteSite(url);
+			dao.close();
 			return new RegisterRemoteSiteResponse(200, "");
 			
 		} catch (Exception e) {

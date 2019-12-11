@@ -18,9 +18,11 @@ public class UnregisterRemoteSiteHandler implements RequestHandler<UnregisterRem
 		try {
 			dao = new RemoteSiteDAO();
 			if(dao.removeRemoteSite(url)) {
+				dao.close();
 				return new UnregisterRemoteSiteResponse(200, "Remote site unregistered");
 			}
-				return new UnregisterRemoteSiteResponse(400, "Remote site could not be unregistered");
+			dao.close();
+			return new UnregisterRemoteSiteResponse(400, "Remote site could not be unregistered");
 		} catch (Exception e) {
 			return new UnregisterRemoteSiteResponse(400, e.getMessage());
 		}

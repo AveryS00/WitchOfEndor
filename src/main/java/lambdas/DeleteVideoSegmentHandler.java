@@ -21,18 +21,18 @@ public class DeleteVideoSegmentHandler implements RequestHandler<DeleteVideoSegm
 		DeleteVideoSegmentResponse response = null;
 		logger.log(req.toString());
 
-		VideoSegmentDAO dao;
-		
 		try {
-			dao = new VideoSegmentDAO();
+			VideoSegmentDAO dao = new VideoSegmentDAO();
 			if (dao.deleteVideoSegment(req.location)) {
 				response = new DeleteVideoSegmentResponse(req.getLocation(), 200);
 			} else {
 				response = new DeleteVideoSegmentResponse(req.getLocation(), 422, "Unable to delete constant.");
 			}
+			dao.close();
 		} catch (Exception e) {
 			response = new DeleteVideoSegmentResponse(req.getLocation(), 403, "Unable to delete constant: " + req.name + "(" + e.getMessage() + ")");
 		}
+		
 		return response;
 	}
 	

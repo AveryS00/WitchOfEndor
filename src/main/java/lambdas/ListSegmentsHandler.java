@@ -28,6 +28,7 @@ public class ListSegmentsHandler implements RequestHandler<Object, ListSegmentsR
 				}
 			}
 			response = new ListSegmentsResponse(localSegments, 200, "");
+			dao.close();
 		} catch (Exception ex) {
 			response = new ListSegmentsResponse(null, 400, ex.getMessage());
 		}
