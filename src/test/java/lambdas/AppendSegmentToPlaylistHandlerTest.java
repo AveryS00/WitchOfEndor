@@ -126,6 +126,8 @@ public class AppendSegmentToPlaylistHandlerTest extends LambdaTest {
 		assertEquals(200, response.httpCode);
 		try {
 			assertTrue(plDao.getPlaylist(playlist1).getVideos().contains(new VideoSegment("https://cs3733wpi.s3.amazonaws.com/segments/output2.ogg", "", "", false)));
+			plDao.removeVideoFromPlaylist(playlist1, 1);
+			vsDao.deleteVideoSegment("https://cs3733wpi.s3.amazonaws.com/segments/output2.ogg");
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail();

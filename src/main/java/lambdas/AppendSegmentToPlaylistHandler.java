@@ -1,5 +1,7 @@
 package lambdas;
 
+import java.sql.SQLException;
+
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
@@ -13,31 +15,52 @@ import http.AppendSegmentResponse;
 public class AppendSegmentToPlaylistHandler implements RequestHandler<AppendSegmentRequest, AppendSegmentResponse> {
 
 	public LambdaLogger logger;
+	PlaylistDAO plDAO;
+	VideoSegmentDAO vsDAO;
 
 	@Override
 	public AppendSegmentResponse handleRequest(AppendSegmentRequest req, Context context) {
 		logger = context.getLogger();
 		logger.log(req.toString());
-		
-		AppendSegmentResponse response;
+
 		try {
-			PlaylistDAO plDAO = new PlaylistDAO();
-			VideoSegmentDAO vsDAO = new VideoSegmentDAO();
+			plDAO = new PlaylistDAO();
+			vsDAO = new VideoSegmentDAO();
+			// Check if in database already
 			if (vsDAO.getVideoSegment(req.getVideoLocation()) == null) {
-				if (!vsDAO.addVideoSegment(new VideoSegment(req.getVideoLocation(), "", "", false, false))) {
-					response = new AppendSegmentResponse("Unable to append video segment, " + req.getVideoLocation() + ", to Playlist: " + req.getPlaylistName(), 400);
-					return response;
-				}
-			}
-			if (plDAO.appendVideoToPlaylist(req.getPlaylistName(), req.getVideoLocation())) {
-				response = new AppendSegmentResponse("VideoSegment " + req.getVideoLocation() + " Added to Playlist " + req.getPlaylistName(), 200);
+				return addToDatabase(req);
 			} else {
-				response = new AppendSegmentResponse("Unable to append video segment, " + req.getVideoLocation() + ", to Playlist: " + req.getPlaylistName(), 400);
+				return appendSegment(req);
 			}
-			plDAO.close();
 		} catch (Exception e) {
-			response = new AppendSegmentResponse("Unable to append video segment, " + req.getVideoLocation() + ", to Playlist: " + req.getPlaylistName() + "(" + e.getMessage() + ")", 500);
+			return createResponse("Unable to append video segment, " + req.getVideoLocation() + ", to Playlist: " + req.getPlaylistName() + "(" + e.getMessage() + ")", 500);
+		} finally {
+			try {
+				vsDAO.close();
+				plDAO.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
-		return response;
+	}
+	
+	private AppendSegmentResponse createResponse (String text, int statusCode) {
+		return new AppendSegmentResponse(text, statusCode);
+	}
+	
+	private AppendSegmentResponse addToDatabase (AppendSegmentRequest req) {
+		if (vsDAO.addVideoSegment(new VideoSegment(req.getVideoLocation(), "", "", false))) {
+			return appendSegment(req);
+		} else {
+			return createResponse("Unable to append video segment, " + req.getVideoLocation() + ", to Playlist: " + req.getPlaylistName(), 400);
+		}
+	}
+	
+	private AppendSegmentResponse appendSegment (AppendSegmentRequest req) {
+		if (plDAO.appendVideoToPlaylist(req.getPlaylistName(), req.getVideoLocation())) {
+			return createResponse("VideoSegment " + req.getVideoLocation() + " Added to Playlist " + req.getPlaylistName(), 200);
+		} else {
+			return createResponse("Unable to append video segment, " + req.getVideoLocation() + ", to Playlist: " + req.getPlaylistName(), 400);
+		}
 	}
 }
