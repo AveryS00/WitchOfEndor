@@ -7,16 +7,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class DatabaseConnection {
-	
-	/*
 	private static final String rdsMySqlDatabaseUrl = System.getenv("rdsMySqlDatabaseUrl");
 	private static final String dbUsername = System.getenv("dbUsername");
 	private static final String dbPassword = System.getenv("dbPassword");
-	*/
-	
-	private static final String rdsMySqlDatabaseUrl = "woe-calculator-db.cyxj4coffoqr.us-east-2.rds.amazonaws.com";
-	private static final String dbUsername = "calcAdmin";
-	private static final String dbPassword = "FlyingColours";
 	
 	private static final String jdbcTag = "jdbc:mysql://";
 	private static final String rdsMySqlDatabasePort = "3306";
