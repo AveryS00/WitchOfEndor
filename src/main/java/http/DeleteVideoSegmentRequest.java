@@ -17,19 +17,6 @@ public class DeleteVideoSegmentRequest
 		return location;
 	}
 	
-	public void setLocation(String location)
-	{
-		this.location = location;
-	}
-	
-	public DeleteVideoSegmentRequest(String location, String character, String name, boolean isLocal) {
-		this.location = location;
-		this.character = character;
-		this.name = name;
-		this.isLocal = isLocal;
-		this.isMarked = false;
-	}
-	
 	public DeleteVideoSegmentRequest(String location)
 	{
 		this.location = location;

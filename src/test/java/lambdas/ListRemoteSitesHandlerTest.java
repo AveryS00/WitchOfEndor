@@ -44,7 +44,10 @@ public class ListRemoteSitesHandlerTest extends LambdaTest {
 				containsTest = true;
 			}
 		}
+		response.toString();
 		assertTrue(containsTest);
+		ListRemoteSitesResponse response2 = new ListRemoteSitesResponse (403, "Can't List Sites");
+		assertEquals(403, response2.statusCode);
 	}
 
 }

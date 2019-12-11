@@ -47,8 +47,11 @@ public class FlipMarkVideoSegmentHandlerTest extends LambdaTest
 		assertFalse(dao.getVideoSegment("location").getIsMarked());
 		MarkVideoSegmentRequest req =  new MarkVideoSegmentRequest("location");
 		MarkVideoSegmentResponse response = handler.handleRequest(req, context);
+		response.toString();
 		assertTrue(dao.getVideoSegment("location").getIsMarked());
 		response = handler.handleRequest(req, context);
 		assertFalse(dao.getVideoSegment("location").getIsMarked());
+		response = handler.handleRequest(new MarkVideoSegmentRequest("location2"), context);
+		assertEquals(response.statusCode, 422);
 	}
 }

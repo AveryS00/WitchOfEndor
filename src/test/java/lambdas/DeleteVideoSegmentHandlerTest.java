@@ -63,6 +63,9 @@ public class DeleteVideoSegmentHandlerTest extends LambdaTest {
 			}
 		}
 		assertFalse(isTrue);
+		response.toString();
+		response = handler.handleRequest(req, context);
+		assertEquals(response.statusCode, 422);
 	}
 
 }
