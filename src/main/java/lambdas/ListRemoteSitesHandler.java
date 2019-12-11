@@ -30,7 +30,9 @@ public class ListRemoteSitesHandler implements RequestHandler<Object,ListRemoteS
 	List<String> getRemoteSites() throws Exception {
 		logger.log("in getRemoteSites");
 		RemoteSiteDAO dao = new RemoteSiteDAO();
-		return dao.listAllRemoteSites();
+		List<String> remoteSites = dao.listAllRemoteSites();
+		dao.close();
+		return remoteSites;
 	}
 	
 	private AmazonS3 s3;

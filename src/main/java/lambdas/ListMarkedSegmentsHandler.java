@@ -64,6 +64,7 @@ public class ListMarkedSegmentsHandler
 			List<VideoSegment> markedSegments = filterSegmentList(allSegments);
 			List<Segment> translatedSegments = translateSegments(markedSegments);
 			Response response = new Response(translatedSegments);
+			dao.close();
 			return response;
 		} catch (Exception e) {
 			return new Response(500, e.getMessage());

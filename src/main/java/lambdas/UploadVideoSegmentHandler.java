@@ -30,20 +30,20 @@ public class UploadVideoSegmentHandler implements RequestHandler<UploadVideoSegm
 
 		UploadVideoSegmentResponse response = null;
 		logger.log(req.toString());
-
-		VideoSegmentDAO dao;
 		
 		byte[] encoded = java.util.Base64.getDecoder().decode(req.base64encoded);
 		try {
+			VideoSegmentDAO dao = new VideoSegmentDAO();
 			if (addToBucket(encoded, text)) {
 				logger.log("attempting to add to database");
-				dao = new VideoSegmentDAO();
 				VideoSegment vs = new VideoSegment(URL + text + ".ogg", req.character, req.text, true);
 				if (dao.addVideoSegment(vs)) {
 					logger.log("successfully added");
+					dao.close();
 					return new UploadVideoSegmentResponse(200, "Video segment uploaded: " + req.text);
 				}
 			}
+			dao.close();
 			response = new UploadVideoSegmentResponse(400, "Unable to upload video segment " + req.text);
 		} catch (Exception e) {
 			response = new UploadVideoSegmentResponse(500, "Unable to upload video segment " + req.text + " " + e.getMessage());

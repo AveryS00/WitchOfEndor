@@ -26,7 +26,7 @@ public class RemoveSegmentFromPlaylistHandler
 			if(!dao.removeVideoFromPlaylist(request.playlistName, request.location)) {
 				return new RemoveSegmentFromPlaylistResponse(200, "Database error");
 			}
-			
+			dao.close();
 			return new RemoveSegmentFromPlaylistResponse(200, "");
 		} catch (Exception e) {
 			return new RemoveSegmentFromPlaylistResponse(400, e.getMessage());

@@ -28,6 +28,7 @@ public class ListPlaylistsHandler implements RequestHandler<Object,ListPlaylistR
 			PlaylistDAO dao = new PlaylistDAO();
 			List<Playlist> list = dao.listAllPlaylists();
 			response = new ListPlaylistResponse(list, 200);
+			dao.close();
 		} catch (Exception e) {
 			response = new ListPlaylistResponse(403, e.getMessage());
 		}

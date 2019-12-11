@@ -45,6 +45,7 @@ public class SearchVideoSegmentsHandler
 				dao.close();
 				return new SearchSegmentResponse(409, "No Video Segments found");
 			}
+			dao.close();
 			return new SearchSegmentResponse(matchingSegments);
 		} catch (Exception e) {
 			return new SearchSegmentResponse(500, e.getMessage());
