@@ -22,11 +22,6 @@ public class DeleteVideoSegmentRequest
 		this.location = location;
 	}
 	
-	public DeleteVideoSegmentRequest()
-	{
-		
-	}
-	
 	public DeleteVideoSegmentRequest(String location, String character, String name, boolean isLocal) {
 		this.location = location;
 		this.character = character;
