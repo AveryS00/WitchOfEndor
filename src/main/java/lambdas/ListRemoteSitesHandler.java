@@ -36,7 +36,7 @@ public class ListRemoteSitesHandler implements RequestHandler<Object,ListRemoteS
 	}
 	
 	private AmazonS3 s3;
-	
+	/*
 	List<String> systemRemoteSites() throws Exception 
 	{
 		logger.log("in systemRemoteSites");
@@ -84,7 +84,7 @@ public class ListRemoteSitesHandler implements RequestHandler<Object,ListRemoteS
 		
 		return sysRemoteSites;
 	}
-	
+	*/
 	@Override
 	public ListRemoteSitesResponse handleRequest(Object input, Context context)  {
 		logger = context.getLogger();
@@ -95,11 +95,11 @@ public class ListRemoteSitesHandler implements RequestHandler<Object,ListRemoteS
 			// get all user defined constants AND system-defined constants.
 			// Note that user defined constants override system-defined constants.
 			List<String> list = getRemoteSites();
-			for (String rs : systemRemoteSites()) {
+			/*for (String rs : systemRemoteSites()) {
 				if (!list.contains(systemRemoteSites())) {
 					list.add(rs);
 				}
-			}
+			}*/
 			response = new ListRemoteSitesResponse(list, 200);
 		} catch (Exception e) {
 			response = new ListRemoteSitesResponse(403, e.getMessage());
