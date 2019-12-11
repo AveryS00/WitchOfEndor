@@ -119,9 +119,16 @@ public class AppendSegmentToPlaylistHandlerTest extends LambdaTest {
 	}
 	
 	@Test
-	public void testSegmentDoesntExist () {
-		AppendSegmentResponse response = generateResp("SomeLocationThatCantExist", playlist1);
+	public void testRemoteSegment () {
+		//
+		AppendSegmentResponse response = generateResp("https://cs3733wpi.s3.amazonaws.com/segments/output2.ogg", playlist1);
 		System.out.println(response.toString());
-		assertEquals(400, response.httpCode);
+		assertEquals(200, response.httpCode);
+		try {
+			assertTrue(plDao.getPlaylist(playlist1).getVideos().contains(new VideoSegment("https://cs3733wpi.s3.amazonaws.com/segments/output2.ogg", "", "", false)));
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail();
+		}
 	}
 }

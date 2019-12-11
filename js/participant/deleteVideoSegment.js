@@ -31,7 +31,7 @@ function handleDeleteClick(url)
 		console.log(xhr);
 		console.log(xhr.request);
 		if (xhr.readyState == XMLHttpRequest.DONE) {
-			if (xhr.status == 200) {
+			if (xhr.statusCode == 200) {
 				console.log("XHR: " + xhr.responseText);
 				processDeleteVideoResponse(xhr.responseText);
 				//processAppendResponse(xhr.repsonseText);

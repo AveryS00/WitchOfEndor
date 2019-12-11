@@ -45,7 +45,7 @@ function handleAppendClick(videoLocation, playlistName) {
 		console.log(xhr);
 		console.log(xhr.request);
 		if (xhr.readyState == XMLHttpRequest.DONE) {
-			if (xhr.status == 200) {
+			if (xhr.httpCode == 200) {
 				console.log("XHR: " + xhr.responseText);
 				listPlaylist();
 				alert("Added to Playlist");
