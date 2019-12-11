@@ -22,8 +22,8 @@ function handleUploadVideoSegment() {
 		if (xhr.readyState == XMLHttpRequest.DONE) {
 			if (xhr.status == 200) {
 				console.log("XHR:" + xhr.responseText);
-				document.getElementById('allSegmentsList').innerHTML = '';
-				listVideoSegments();
+				alert("Uploded Segment")
+				location.reload();
 			} else {
 				console.log("actual:" + xhr.responseText);
 				var js = JSON.parse(xhr.responseText);

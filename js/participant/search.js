@@ -77,6 +77,7 @@ function generateVideoList(json, list) {
 		li.appendChild(title);
 		li.appendChild(character);
 		li.appendChild(video);
+		li.appendChild(createAddToPlaylistButton(segment, li));
 		list.appendChild(li);
 	}
 }
@@ -112,14 +113,20 @@ function proccessSearchRemoteSitesResponse(txt, character, phrase) {
 	}
 }
 
-function searchRemoteSite(url, character, phrase) {
-	console.log("Searching site: " + url)
+function searchRemoteSite(raw_url, character, phrase) {
+	var parts = raw_url.split("?apikey=");
+	
+	var url = parts[0]
+	var key = parts[1]
+	console.log("Searching site: " + url + " with key: " + key)
+	
 	var xhr = new XMLHttpRequest();
 	
 	xhr.open("GET", url, true);
 	
-	// send the collected data as JSON
-	xhr.send("");
+	xhr.setRequestHeader('x-api-key', key)
+	
+	xhr.send();
 	
 	// This will process results and update HTML as appropriate. 
 	xhr.onloadend = function () {
@@ -172,6 +179,7 @@ function generateRemoteVideoList(segments) {
 		li.appendChild(title);
 		li.appendChild(character);
 		li.appendChild(video);
+		li.appendChild(createAddToPlaylistButton(segment, li));
 		list.appendChild(li);
 	}
 }
