@@ -28,7 +28,7 @@ public class VideoSegmentDAO {
 	 * @return The VideoSegment object represented in the database, or null if there is no VideoSegment with that location.
 	 * @throws SQLException
 	 */
-	public VideoSegment getVideoSegment (String location) throws SQLException {
+	public VideoSegment getVideoSegment (String location) {
 		try {
 			pstmt = conn.prepareStatement("SELECT * FROM Video WHERE videoLocation = ?");
 			pstmt.setString(1, location);
@@ -41,7 +41,7 @@ public class VideoSegmentDAO {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw e;
+			return null;
 		} finally {
 			DatabaseConnection.closeStmt(pstmt, rset);
 		}
@@ -73,11 +73,13 @@ public class VideoSegmentDAO {
 		}
 	}
 	
+	
 	/**
 	 * Updates the information in the database based on the given VideoSegment
 	 * @param vs The VideoSegment that will be written into the 
 	 * @return True if could update the info. False otherwise.
 	 */
+	/*
 	public boolean updateVideoSegment (VideoSegment vs) {
 		try {
 			if (!isInDatabase(vs)) {
@@ -99,6 +101,7 @@ public class VideoSegmentDAO {
 			DatabaseConnection.closeStmt(pstmt, rset);
 		}
 	}
+	*/
 	
 	/**
 	 * Flips the mark status in the database.
