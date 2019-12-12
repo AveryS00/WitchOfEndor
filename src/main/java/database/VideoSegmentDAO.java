@@ -73,36 +73,6 @@ public class VideoSegmentDAO {
 		}
 	}
 	
-	
-	/**
-	 * Updates the information in the database based on the given VideoSegment
-	 * @param vs The VideoSegment that will be written into the 
-	 * @return True if could update the info. False otherwise.
-	 */
-	/*
-	public boolean updateVideoSegment (VideoSegment vs) {
-		try {
-			if (!isInDatabase(vs)) {
-				return false;
-			}
-			pstmt = conn.prepareStatement("UPDATE Video SET videoName = ?, characterName = ?, isLocal = ?, isMarked = ? "
-					+ "WHERE videoLocation = ?");
-			pstmt.setString(1, vs.name);
-			pstmt.setString(2, vs.character);
-			pstmt.setBoolean(3, vs.getIsLocal());
-			pstmt.setBoolean(4, vs.getIsMarked());
-			pstmt.setString(5, vs.location);
-			int updatedRows = pstmt.executeUpdate();
-			return (updatedRows == 1);
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return false;
-		} finally {
-			DatabaseConnection.closeStmt(pstmt, rset);
-		}
-	}
-	*/
-	
 	/**
 	 * Flips the mark status in the database.
 	 * @param vs The VideoSegment to flip the status of.
