@@ -9,6 +9,9 @@ https://cs3733-witch-of-endor.s3.us-east-2.amazonaws.com/html/participant.html
 - Show/Hide Segments
 - Add to Playlist
 - Delete Video Segment
+### Remote Video Segments
+- Show/Hide Segments
+- Add to Playlist
 #### Playlists
 - Show/Hide Playlists
 - View Playlist
